@@ -6,7 +6,7 @@ const path = require('path')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 
-var dbURI = process.env.PROD_MONGODB || 'mongodb://localhost/theweddingproject'
+var dbURI = process.env.PROD_MONGODB || 'mongodb://localhost/theryanjoleneproject'
 mongoose.connect(dbURI)
 mongoose.Promise = global.Promise
 
@@ -19,6 +19,14 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.get('/', function(req, res) {
   res.render('./home')
 })
+app.post('/', function(req, res) {
+  console.log(req.body)
+  // if (req.body.type === 'signup') {
+  //   res.send(req.body)
+  // }
+})
+
+// app.use('/', require('./routes/user_router'))
 
 // app.use('/', require('./controllers/auth'))
 

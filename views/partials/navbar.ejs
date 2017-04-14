@@ -2,7 +2,7 @@
   <div class="container-fluid">
 
     <div class="navbar-header">
-      <a class="navbar-brand" href="/">Ryan Jolene</a>
+      <a class="navbar-brand" href="/">Ryan &#38; Jolene</a>
     </div>
 
     <div class="collapse navbar-collapse">
@@ -12,8 +12,10 @@
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-          <li><a href="/login">Login</a></li>
-          <li><a href="/signup">Signup</a></li>
+          <%# if not logged in%>
+          <li id="login"><a>Login</a></li>
+          <li id="signup"><a>Signup</a></li>
+          <%# if logged in%>
       </ul>
     </div>
 
