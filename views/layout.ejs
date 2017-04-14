@@ -11,20 +11,20 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="./css/sweet-alert.css">
-    <link rel="stylesheet" href="./css/swal-forms.css">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="icon" type="image/jpg" href="favicon.jpg" />
   </head>
   <body>
-    <nav>
-      <% include ./partials/navbar %>
-    </nav>
-    <main>
-      <%- body %>
-    </main>
-    <script src="./js/sweet-alert.js"></script>
-    <script src="./js/swal-forms.js"></script>
+
+    <div class="home-background">
+      <header>
+        <% include ./partials/navbar %>
+      </header>
+      <main>
+        <%- body %>
+      </main>
+    </div>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="./js/script.js"></script>
   </body>

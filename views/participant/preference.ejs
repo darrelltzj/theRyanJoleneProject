@@ -1,0 +1,24 @@
+<div class="dimmer"></div>
+<div id="form-preference">
+  <h1 class="preference-intro">Dear <%= name%>&#44; &#46;&#46;&#46;</h1>
+  <form action="/preference" method="POST">
+    <div class="form-group">
+      <label for="foodPref">Food Preference</label>
+      <select class="foodPref" name="foodPref">
+        <option value="Halal">Halal</option>
+        <option value="Vegetarian">Vegetarian</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="addGuest">Additional Guest</label>
+      <select class="addGuest" name="addGuest">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-default" id="preference-submit">Submit</button>
+  </form>
+</div>

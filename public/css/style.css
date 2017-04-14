@@ -1,53 +1,95 @@
-.navbar {
-  position: absolute;
-  z-index: 1;
-  width: 100vw;
-}
-
 .home-background {
-  background-image: url("/img/0.jpeg");
+  background-image: url("/img/1.jpg");
   background-size: cover;
   width: 100vw;
   height: 100vh;
   display: flex;
+  flex-direction: column;
 }
 
+header {
+  position: absolute;
+  align-self: center;
+  margin: 2% 0%;
+  z-index: 200;
+}
+
+.nav {
+  display: inline-block;
+  margin: 0 4vw;
+}
+
+.navLinks {
+  font-size: 120%;
+  color: black;
+}
+
+/*.navbar {
+  position: absolute;
+  z-index: 1;
+  width: 100vw;
+}*/
+
 .home-cover {
-  background-color: #fee;
+  /*background-color: #fee;*/
   width: 100vw;
   position: absolute;
-  bottom: 15vh;
+  bottom: 35vh;
   height: 30vh;
 }
 
 .home-title {
   padding: 0.2%;
   text-align: center;
+  font-family: cursive;
   font-size: 500%;
+  color: black;
 }
 
 .home-description {
   padding: 0.2%;
   text-align: center;
+  font-family: cursive;
   font-size: 200%;
+  color: black;
 }
 
 #form-signup{
-    visibility: hidden;
+    /*visibility: hidden;*/
     position: absolute;
-    background: white;
-    border: 2px solid #3c3c3c;
-    color: black;
+    /*background: white;*/
+    /*border: 2px solid #3c3c3c;*/
+    /*color: black;*/
     z-index: 100;
     width: 30vw;
-    height: 70vh;
     padding: 20px;
+    left: 50vw;
+    top: 50vh;
+    margin-left: -15vw;
+    margin-top: -30vh;
   }
 
-.dimmer{
-    background: #000;
+  label {
+    color: white;
+  }
+
+#form-preference{
     position: absolute;
-    opacity: .5;
-    top: 0;
-    z-index:99;
+    z-index: 100;
+    width: 20vw;
+    padding: 20px;
+    left: 50vw;
+    top: 50vh;
+    margin-left: -10vw;
+    margin-top: -20vw;
+  }
+
+.dimmer {
+  width:100%;
+  height:100%;
+  background: #000;
+  position: absolute;
+  opacity: .5;
+  top: 0;
+  z-index:99;
 }
