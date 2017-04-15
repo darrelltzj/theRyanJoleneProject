@@ -24,10 +24,19 @@ const mainController = {
       }
     })
   },
+  getLogin: function (req, res) {
+    res.render('./auth/login')
+  },
   getPreference: function (req, res) {
     console.log(req.user.name, res.locals)
     var name = req.user.name
-    res.render('./participant/preference', {name: name})
+    res.render('./participant/preference', {
+      name: name
+    })
+  },
+  getLogout: function (req, res) {
+    req.logout()
+    res.redirect('/')
   }
 }
 

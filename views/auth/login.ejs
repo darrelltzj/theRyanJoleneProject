@@ -1,13 +1,17 @@
-<form action="/auth/login" method="POST">
-  <div class="form-group">
-    <label for="authEmail">Email</label>
-    <input id="authEmail" class="form-control" type="email" name="email">
-  </div>
+<div class="dimmer"></div>
+<div id="form-login">
+  <form action="/login" method="POST">
+    <div class="form-group">
+      <label for="loginEmail">Email</label>
+      <input id="loginEmail" class="form-control" type="email" name="email">
+    </div>
 
-  <div class="form-group">
-    <label for="authPassword">Password</label>
-    <input id="authPassword" class="form-control" type="password" name="password">
-  </div>
+    <div class="form-group">
+      <label for="loginPassword">Password</label>
+      <input id="loginPassword" class="form-control" type="password" name="password">
+    </div>
 
-  <input class="btn btn-primary" type="submit">
-</form>
+    <button type="submit" class="btn btn-default" id="signup-submit" name="formType" value="signup">Login</button>
+
+  </form>
+</div>

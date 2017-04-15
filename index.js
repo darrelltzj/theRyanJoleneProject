@@ -23,13 +23,14 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.set('view engine', 'ejs')
-app.use(ejsLayouts)
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
+app.use(ejsLayouts)
+app.use(require('./middleware/setCurrentUser'))
+app.set('view engine', 'ejs')
+
 app.use('/', require('./routes/mainRouter'))
-// app.use('/', require('./routes/user_router'))
 
 app.listen(process.env.PORT)

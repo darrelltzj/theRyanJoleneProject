@@ -1,6 +1,11 @@
 <ul>
+  <li class="nav"><a class="navLinks" id="home" href="/">Home</a></li>
   <li class="nav"><a class="navLinks" id="about" href="#">About</a></li>
-  <li class="nav"><a class="navLinks" id="preference">Preference</a></li>
-  <li class="nav"><a class="navLinks" id="login">Login</a></li>
-  <li class="nav"><a class="navLinks" id="signup" href="/signup">Signup</a></li>
+  <% if (!currentUser) { %>
+    <li class="nav"><a class="navLinks" id="login" href="/login">Login</a></li>
+    <li class="nav"><a class="navLinks" id="signup" href="/signup">Signup</a></li>
+  <% } else { %>
+    <li class="nav"><a class="navLinks" id="preference" href="/preference">Preference</a></li>
+    <li class="nav"><a class="navLinks" id="logout" href="/logout">Logout</a></li>
+  <% } %>
 </ul>
