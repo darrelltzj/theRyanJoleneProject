@@ -15,7 +15,7 @@ router.route('/signup')
 router.route('/login')
 .get(isLoggedOut, mainController.getLogin)
 .post(passport.authenticate('local', {
-  successRedirect: '/preference',
+  successRedirect: '/',
   failureRedirect: '/login',
   failureFlash: 'Invalid username and/or password',
   successFlash: 'You have logged in'
@@ -23,6 +23,7 @@ router.route('/login')
 
 router.route('/preference')
 .get(isLoggedIn, mainController.getPreference)
+.post(isLoggedIn, mainController.postPreference)
 
 router.route('/logout')
 .get(isLoggedIn, mainController.getLogout)

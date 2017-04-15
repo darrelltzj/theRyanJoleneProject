@@ -33,10 +33,21 @@ const mainController = {
     res.render('./auth/login')
   },
   getPreference: function (req, res) {
-    console.log(req.user.name, res.locals)
-    var name = req.user.name
-    res.render('./participant/preference', {
-      name: name
+    // console.log(req.user.name, res.locals)
+    res.render('./participant/preference')
+  },
+  postPreference: function (req, res) {
+    User.findOneAndUpdate({
+      _id: req.user._id
+    }, {
+      attending: req.body.attending,
+      foodPref: req.body.foodPref,
+      addGuest: req.body.addGuest
+    }, function (err, theUser) {
+      if (err) console.error(err)
+      // console.log(theUser, req.body, req.user)
+      console.log(res.locals.currentUser)
+      res.redirect('/')
     })
   },
   getLogout: function (req, res) {

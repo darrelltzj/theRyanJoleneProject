@@ -22,6 +22,22 @@ var UserSchema = new mongoose.Schema({
     required: true ,
     minlength: [6, 'Password must be between 6 and 99 characters'],
     maxlength: [99, 'Password must be between 8 and 99 characters'],
+  },
+  attending: {
+    type: Boolean,
+    default: false
+  },
+  foodPref: {
+    type: String,
+    default: 'NO INDICATION'
+  },
+  addGuest: {
+    type: Number,
+    default: 0
+  },
+  admin: {
+    type: Boolean,
+    default: false
   }
 })
 

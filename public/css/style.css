@@ -87,12 +87,12 @@ label {
 #form-preference{
     position: absolute;
     z-index: 100;
-    width: 30vw;
+    width: 26vw;
     padding: 20px;
     left: 50vw;
     top: 50vh;
-    margin-left: -15vw;
-    margin-top: -22vw;
+    margin-left: -13vw;
+    margin-top: -26vh;
   }
 
 .dimmer {
