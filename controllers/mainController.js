@@ -7,19 +7,24 @@ const mainController = {
     res.render('./home')
   },
   getSignup: function (req, res) {
-    res.render('./auth/signup')
+    res.render('./auth/signup', {
+      flash: req.flash('error')
+    })
   },
   postSignup: function (req, res) {
-    User.create({
+    let user = new User({
       email: req.body.email,
       name: req.body.name,
       password: req.body.password
-    }, function (err, createdUser) {
+    })
+    user.save(function (err, createdUser) {
       if (err) {
+        req.flash('error', 'Unable to create user account')
         res.redirect('/signup')
       } else {
         passport.authenticate('local', {
-          successRedirect: '/preference'
+          successRedirect: '/preference',
+          successFlash: 'Account created and logged in'
         })(req, res)
       }
     })
@@ -36,6 +41,7 @@ const mainController = {
   },
   getLogout: function (req, res) {
     req.logout()
+    req.flash('success', 'You have logged out')
     res.redirect('/')
   }
 }

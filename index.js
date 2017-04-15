@@ -7,7 +7,7 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const passport = require('./config/passport')
 const MongoStore = require('connect-mongo')(session)
-// const isLoggedIn = require('./middleware/isLoggedIn')
+const flash = require('connect-flash')
 require('dotenv').config({ silent: true })
 
 var dbURI = process.env.PROD_MONGODB || 'mongodb://localhost/theryanjoleneproject'
@@ -26,6 +26,8 @@ app.use(passport.session())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use(flash())
 
 app.use(ejsLayouts)
 app.use(require('./middleware/setCurrentUser'))
