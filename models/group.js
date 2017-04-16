@@ -1,21 +1,17 @@
 const mongoose = require('mongoose')
 // const User = require('../models/user')
 
-var TableSchema = new mongoose.Schema({
+var GroupSchema = new mongoose.Schema({
   name: {
     type: String,
     unique: true
   },
-  capacity: {
-    type: Number,
-    default: 10
-  },
-  reservedFor: [{
+  guests: [{
     type: mongoose.Schema.ObjectId,
     ref: 'User'
   }]
 })
 
-var Table = mongoose.model('Table', TableSchema)
+var Group = mongoose.model('Group', GroupSchema)
 
-module.exports = Table
+module.exports = Group

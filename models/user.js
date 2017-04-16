@@ -31,10 +31,10 @@ var UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  table: {
-    type: String,
-    default: 'NOT SET'
-  },
+  table: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Table'
+  }],
   group: {
     type: String,
     default: 'NOT SET'
@@ -45,7 +45,8 @@ var UserSchema = new mongoose.Schema({
   },
   headCountAllowed: {
     type: Number,
-    default: 2
+    default: 2,
+    min: [1, 'Head Count Allowed must be at least 1']
   },
   headCountSelected: {
     type: Number,

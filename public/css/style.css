@@ -110,7 +110,7 @@ header {
   margin-top: -10vh;
 }
 
-#form-updateGuest{
+#form-updateGuest, #form-addGuest{
     position: absolute;
     color: black;
     z-index: 100;
@@ -122,7 +122,7 @@ header {
     margin-top: -42vh;
   }
 
-#form-addGuest{
+#form-addTable, #form-editTable{
     position: absolute;
     color: black;
     z-index: 100;
@@ -131,7 +131,7 @@ header {
     left: 50vw;
     top: 50vh;
     margin-left: -15vw;
-    margin-top: -42vh;
+    margin-top: -20vh;
   }
 
 .dimmer {

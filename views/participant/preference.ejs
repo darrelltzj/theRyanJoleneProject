@@ -18,7 +18,7 @@
         <option value="other">Other</option>
       </select>
     </div>
-    <% if (user.headCountAllowed >= 1) { %>
+    <% if (user.headCountAllowed > 1) { %>
       <div class="form-group">
         <label for="addGuest">Additional Guests</label>
         <select class="addGuest" name="addGuest">

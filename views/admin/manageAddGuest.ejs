@@ -1,6 +1,6 @@
 <div class="dimmer"></div>
 <div id="form-addGuest">
-  <form action="/admin/manage" method="POST">
+  <form action="" method="POST">
     <div class="form-group">
       <label for="name" class="update-label">Name</label>
       <input type="text" class="form-control" placeholder="Name" name="name">
@@ -30,9 +30,11 @@
     <div class="form-group">
       <label for=" " class="update-label">Table</label>
       <select name="table">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="NOT SET" selected>NOT SET</option>
+        <% tablesArr.forEach(function (table) { %>
+          <option value="<%= table._id%>">
+          <%= table.name%>
+          </option>
+        <% }) %>
       </select>
     </div>
 

@@ -3,15 +3,24 @@ const router = express.Router()
 const adminController = require('../controllers/adminController')
 const passport = require('../config/passport')
 
-router.route('/manage')
+router.route('/')
 .get(adminController.getAdminManage)
-.post(adminController.postAdminManageAddGuest || adminController.postAdminManageGuest)
 
-router.route('/manage/add')
-.get(adminController.getAdminManageAddGuest)
+router.route('/guest/add')
+.get(adminController.getAdminAddGuest)
+.post(adminController.postAdminAddGuest)
 
-router.route('/manage/:id')
-.get(adminController.getAdminManageGuest)
+router.route('/guest/:id')
+.get(adminController.getAdminEditGuest)
+.post(adminController.postAdminEditGuest)
+
+router.route('/table/add')
+.get(adminController.getAdminAddTable)
+.post(adminController.postAdminAddTable)
+
+router.route('/table/:id')
+.get(adminController.getAdminEditTable)
+.post(adminController.postAdminEditTable)
 
 router.route('/checkin')
 .get(adminController.getAdminCheckIn)

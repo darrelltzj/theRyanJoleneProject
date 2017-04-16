@@ -1,5 +1,59 @@
 <div class="admin-dimmer">
-  <div class="panel panel-default" id="manage-list">
+  <div class="panel panel-default" id="event-settings">
+    <div class="panel-heading">
+      Event Settings
+    </div>
+    <div class="panel-body">
+    </div>
+  </div>
+
+  <div class="panel panel-default" id="table-settings">
+    <div class="panel-heading">
+      Table Settings
+    </div>
+    <div class="panel-body">
+      <table class="table">
+        <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Total Capacity</th>
+                  <th>Reserved for</th>
+                  <th>
+                    <form action="/admin/table/add">
+                    <button class="btn btn-xs btn-success" id="addTable">
+                    Add Table
+                    </button>
+                  </form>
+                </th>
+              </tr>
+          </thead>
+          <tbody>
+              <% tablesArr.forEach(function (table) { %>
+                <tr>
+                <td>
+                  <%= table.name%>
+                </td>
+                <td>
+                  <%= table.capacity%>
+                </td>
+                <td>
+                  <%= table.reservedFor.length%>
+                </td>
+                <td>
+                <form action="/admin/table/<%= table._id %>">
+                <button class="btn btn-xs">
+                  Edit Table
+                </button>
+                </form>
+                </td>
+                </tr>
+              <% })%>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+  <div class="panel panel-default" id="guest-settings">
     <div class="panel-heading">
       Guest Settings
     </div>
@@ -17,9 +71,9 @@
                   <th>Head Count Allowed</th>
                   <th>Head Count Selected</th>
                   <th>
-                    <form action="/admin/manage/add">
+                    <form action="/admin/guest/add">
                     <button class="btn btn-xs btn-success" id="addGuest">
-                    Add
+                    Add Guest
                     </button>
                   </form>
                 </th>
@@ -41,7 +95,7 @@
                 <%= guest.attending%>
               </td>
               <td>
-                <%= guest.table%>
+                <%= guest.table.name%>
               </td>
               <td>
                 <%= guest.group%>
@@ -56,9 +110,9 @@
                 <%= guest.headCountSelected%>
               </td>
               <td>
-              <form action="/admin/manage/<%= guest._id %>">
+              <form action="/admin/guest/<%= guest._id %>">
               <button class="btn btn-xs">
-                Edit
+                Edit Guest
               </button>
               </form>
               </td>
