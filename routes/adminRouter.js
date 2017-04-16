@@ -5,7 +5,7 @@ const passport = require('../config/passport')
 
 router.route('/manage')
 .get(adminController.getAdminManage)
-.post(adminController.postAdminManage)
+.post(adminController.postAdminManageAddGuest || adminController.postAdminManageGuest)
 
 router.route('/manage/add')
 .get(adminController.getAdminManageAddGuest)

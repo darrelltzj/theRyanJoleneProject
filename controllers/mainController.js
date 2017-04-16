@@ -12,22 +12,60 @@ const mainController = {
     })
   },
   postSignup: function (req, res) {
-    let user = new User({
-      email: req.body.email,
-      name: req.body.name,
-      password: req.body.password
-    })
-    user.save(function (err, createdUser) {
-      if (err) {
-        req.flash('error', 'Unable to create user account')
-        res.redirect('/signup')
-      } else {
-        passport.authenticate('local', {
-          successRedirect: '/preference',
-          successFlash: 'Account created and logged in'
-        })(req, res)
-      }
-    })
+    // console.log(req.body)
+    // User.find({email:req.body.email}, function (err, data) {
+    //   console.log(data)
+    // })
+
+    User.findOne({email: req.body.email}, function (err, user) {
+      user.password = req.body.password
+      user.save(function (err) {
+        if (err) {
+            req.flash('error', 'Unable to create user account')
+            res.redirect('/signup')
+            }
+            else {
+              passport.authenticate('local', {
+                successRedirect: '/preference',
+                successFlash: 'Account created and logged in'
+              })(req, res)
+            }
+          })
+        })
+        
+    // User.findOneAndUpdate({
+    //   email: req.body.email
+    // },{
+    //   password: req.body.password
+    // }, function (err, data) {
+    //   if (err) {
+    //     req.flash('error', 'Unable to create user account')
+    //     res.redirect('/signup')
+    //     }
+    //     else {
+    //       passport.authenticate('local', {
+    //         successRedirect: '/preference',
+    //         successFlash: 'Account created and logged in'
+    //       })(req, res)
+    //     }
+    //   })
+
+    // let user = new User({
+    //   email: req.body.email,
+    //   name: req.body.name,
+    //   password: req.body.password
+    // })
+    // user.save(function (err, createdUser) {
+    //   if (err) {
+    //     req.flash('error', 'Unable to create user account')
+    //     res.redirect('/signup')
+    //   } else {
+    //     passport.authenticate('local', {
+    //       successRedirect: '/preference',
+    //       successFlash: 'Account created and logged in'
+    //     })(req, res)
+    //   }
+    // })
   },
   getLogin: function (req, res) {
     res.render('./auth/login')
