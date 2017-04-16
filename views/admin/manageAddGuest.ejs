@@ -1,0 +1,67 @@
+<div class="dimmer"></div>
+<div id="form-addGuest">
+  <form action="/admin/manage" method="POST">
+    <div class="form-group">
+      <label for="name" class="update-label">Name</label>
+      <input type="text" class="form-control" placeholder="Name" name="name">
+    </div>
+
+    <div class="form-group">
+      <label for="email" class="update-label">Email</label>
+      <input type="email" class="form-control" placeholder="Email" name="email">
+    </div>
+
+    <div class="form-group">
+      <label for="admin" class="update-label">Admin</label>
+      <select name="admin">
+        <option value=true>Yes</option>
+        <option value=false selected>No</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="attending" class="update-label">Attending</label>
+      <select name="attending">
+        <option value=true>Yes</option>
+        <option value=false selected>No</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for=" " class="update-label">Table</label>
+      <select name="table">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="NOT SET" selected>NOT SET</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for=" " class="update-label">Group</label>
+      <select name="group">
+        <option value="Bride">Bride</option>
+        <option value="Groom">Groom</option>
+        <option value="NOT SET" selected>NOT SET</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="foodPref" class="update-label">Food Preference</label>
+      <input type="text" class="form-control" value="NOT SET" name="foodPref">
+    </div>
+
+    <div class="form-group">
+      <label for="headCountAllowed" class="update-label">Head Count Allowed</label>
+      <input type="number" class="form-control" value=2 name="headCountAllowed">
+    </div>
+
+    <div class="form-group">
+      <label for=" " class="update-label">Head Count Selected</label>
+      <input type="number" class="form-control" value=0 name="headCountSelected">
+    </div>
+
+    <% include ../partials/alerts %>
+
+    <button type="submit" class="btn btn-primary btn-success" name="action" value="remove">Add Guest</button>
+  </form>
+</div>

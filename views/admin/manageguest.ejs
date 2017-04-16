@@ -1,0 +1,110 @@
+<div class="dimmer"></div>
+<div id="form-updateGuest">
+  <form action="/admin/manage" method="POST">
+    <div class="form-group">
+      <label for="name" class="update-label">Name</label>
+      <input type="text" class="form-control" value="<%= user.name%>" name="name">
+    </div>
+
+    <div class="form-group">
+      <label for="email" class="update-label">Email</label>
+      <input type="email" class="form-control" value="<%= user.email%>" name="email">
+    </div>
+
+    <div class="form-group">
+      <label for="admin" class="update-label">Admin</label>
+      <select name="admin">
+        <option value=true
+        <% if (user.admin) { %>
+          selected
+        <% } %>
+        >Yes</option>
+        <option value=false
+        <% if (!user.admin) { %>
+          selected
+        <% } %>
+        >No</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="attending" class="update-label">Attending</label>
+      <select name="attending">
+        <option value=true
+        <% if (user.attending) { %>
+          selected
+        <% } %>
+        >Yes</option>
+        <option value=false
+        <% if (!user.attending) { %>
+          selected
+        <% } %>
+        >No</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for=" " class="update-label">Table</label>
+      <select name="table">
+        <option value="1"
+        <% if (user.table == 1) { %>
+          selected
+        <% } %>
+        >1</option>
+        <option value="2"
+        <% if (user.table == 2) { %>
+          selected
+        <% } %>
+        >2</option>
+        <option value="NOT SET"
+        <% if (user.table == 'NOT SET') { %>
+          selected
+        <% } %>
+        >NOT SET</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for=" " class="update-label">Group</label>
+      <select name="group">
+        <option value="Bride"
+        <% if (user.group == 'Bride') { %>
+          selected
+        <% } %>
+        >Bride</option>
+        <option value="Groom"
+        <% if (user.group == 'Groom') { %>
+          selected
+        <% } %>
+        >Groom</option>
+        <option value="NOT SET"
+        <% if (user.group == 'NOT SET') { %>
+          selected
+        <% } %>
+        >NOT SET</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="foodPref" class="update-label">Food Preference</label>
+      <input type="text" class="form-control" value="<%= user.foodPref%>" name="foodPref">
+    </div>
+
+    <div class="form-group">
+      <label for="headCountAllowed" class="update-label">Head Count Allowed</label>
+      <input type="number" class="form-control" value="<%= user.headCountAllowed%>" name="headCountAllowed">
+    </div>
+
+    <div class="form-group">
+      <label for=" " class="update-label">Head Count Selected</label>
+      <input type="number" class="form-control" value="<%= user.headCountSelected%>" name="headCountSelected">
+    </div>
+
+    <% include ../partials/alerts %>
+
+    <input type="hidden" name="id" value=<%= user.id%>>
+
+    <button type="submit" class="btn btn-primary" name="action" value="update">Update</button>
+    <button type="submit" class="btn btn-primary btn-danger" name="action" value="remove">Disinvite</button>
+  </form>
+</div>

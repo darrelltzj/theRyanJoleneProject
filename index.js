@@ -36,8 +36,6 @@ app.use(require('./middleware/setCurrentUser'))
 app.set('view engine', 'ejs')
 
 app.use('/', require('./routes/mainRouter'))
-// could not link to script.js and style.css when /admin/checkin was used
-app.use('/adminmanage', isLoggedIn, isAdmin, require('./routes/adminManageRouter'))
-app.use('/admincheckin', isLoggedIn, isAdmin, require('./routes/adminCheckInRouter'))
+app.use('/admin', isLoggedIn, isAdmin, require('./routes/adminRouter'))
 
 app.listen(process.env.PORT)

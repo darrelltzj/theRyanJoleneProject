@@ -1,19 +1,71 @@
 <div class="admin-dimmer">
   <div class="panel panel-default" id="manage-list">
     <div class="panel-heading">
-      Guest List
+      Guest Settings
     </div>
     <div class="panel-body">
-      <input type="text" class="form-control" id="nameSearch" placeholder="Name">
-      <ul class="list-group" id="guestList">
-        <% usersArr.forEach(function (user) { %>
-          <li class="list-group-item">
-            <a href="#">
-            <%= user.name %>
-            </a>
-          </li>
-        <% }) %>
-      <ul>
+      <table class="table">
+        <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Admin</th>
+                  <th>Attending</th>
+                  <th>Table</th>
+                  <th>Group</th>
+                  <th>Food Preference</th>
+                  <th>Head Count Allowed</th>
+                  <th>Head Count Selected</th>
+                  <th>
+                    <form action="/admin/manage/add">
+                    <button class="btn btn-xs btn-success" id="addGuest">
+                    Add
+                    </button>
+                  </form>
+                </th>
+              </tr>
+          </thead>
+          <tbody>
+            <% usersArr.forEach(function (guest) { %>
+              <tr>
+              <td>
+                <%= guest.name%>
+              </td>
+              <td>
+                <%= guest.email%>
+              </td>
+              <td>
+                <%= guest.admin%>
+              </td>
+              <td>
+                <%= guest.attending%>
+              </td>
+              <td>
+                <%= guest.table%>
+              </td>
+              <td>
+                <%= guest.group%>
+              </td>
+              <td>
+                <%= guest.foodPref%>
+              </td>
+              <td>
+                <%= guest.headCountAllowed%>
+              </td>
+              <td>
+                <%= guest.headCountSelected%>
+              </td>
+              <td>
+              <form action="/admin/manage/<%= guest._id %>">
+              <button class="btn btn-xs">
+                Edit
+              </button>
+              </form>
+              </td>
+              </tr>
+            <% }) %>
+          </tbody>
+      </table>
     </div>
   </div>
 </div>

@@ -41,7 +41,7 @@ var UserSchema = new mongoose.Schema({
   },
   foodPref: {
     type: String,
-    default: 'NO INDICATION'
+    default: 'NO SET'
   },
   headCountAllowed: {
     type: Number,
