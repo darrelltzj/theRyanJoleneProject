@@ -34,7 +34,12 @@ const mainController = {
   },
   getPreference: function (req, res) {
     // console.log(req.user.name, res.locals)
-    res.render('./participant/preference')
+    User.findById(req.user._id, function (err, user) {
+      if (err) console.error(err)
+      res.render('./participant/preference', {
+        user: user
+      })
+    })
   },
   postPreference: function (req, res) {
     User.findOneAndUpdate({
@@ -42,7 +47,7 @@ const mainController = {
     }, {
       attending: req.body.attending,
       foodPref: req.body.foodPref,
-      addGuest: req.body.addGuest
+      headCountSelected: parseInt(req.body.addGuest) + 1
     }, function (err, theUser) {
       if (err) console.error(err)
       // console.log(theUser, req.body, req.user)

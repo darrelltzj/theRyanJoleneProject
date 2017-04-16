@@ -1,14 +1,23 @@
 <ul>
   <li class="nav"><a class="navLinks" id="home" href="/">Home</a></li>
   <li class="nav"><a class="navLinks" id="about" href="#">About</a></li>
+
   <% if (!currentUser) { %>
+
     <li class="nav"><a class="navLinks" id="login" href="/login">Login</a></li>
     <li class="nav"><a class="navLinks" id="signup" href="/signup">Signup</a></li>
+
   <% } else { %>
+
     <% if (currentUser.admin) { %>
-      <li class="nav"><a class="navLinks" id="manage" href="/logout">Manage</a></li>
+
+      <li class="nav"><a class="navLinks" id="manage" href="/adminmanage">Manage</a></li>
+      <li class="nav"><a class="navLinks" id="adminCheckIn" href="/admincheckin">Check In</a></li>
+
     <% } %>
+
     <li class="nav"><a class="navLinks" id="preference" href="/preference">Preference</a></li>
     <li class="nav"><a class="navLinks" id="logout" href="/logout">Logout</a></li>
+
   <% } %>
 </ul>

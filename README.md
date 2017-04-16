@@ -1,6 +1,8 @@
 # theRyanJoleneProject
 http://jsfiddle.net/loktar/rxGmk/
 
+https://kilianvalkhof.com/2010/javascript/how-to-build-a-fast-simple-list-filter-with-jquery/
+
 Drafts
 $('#signup').on('click', function () {
   var dimmer = $("<div></div>").width(window.innerWidth + 'px').height(window.innerHeight + 'px').addClass('dimmer')

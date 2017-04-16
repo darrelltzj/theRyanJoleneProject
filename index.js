@@ -8,6 +8,8 @@ const session = require('express-session')
 const passport = require('./config/passport')
 const MongoStore = require('connect-mongo')(session)
 const flash = require('connect-flash')
+const isLoggedIn = require('./middleware/isLoggedIn')
+const isAdmin = require('./middleware/isAdmin')
 require('dotenv').config({ silent: true })
 
 var dbURI = process.env.PROD_MONGODB || 'mongodb://localhost/theryanjoleneproject'
@@ -34,5 +36,8 @@ app.use(require('./middleware/setCurrentUser'))
 app.set('view engine', 'ejs')
 
 app.use('/', require('./routes/mainRouter'))
+// could not link to script.js and style.css when /admin/checkin was used
+app.use('/adminmanage', isLoggedIn, isAdmin, require('./routes/adminManageRouter'))
+app.use('/admincheckin', isLoggedIn, isAdmin, require('./routes/adminCheckInRouter'))
 
 app.listen(process.env.PORT)

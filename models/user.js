@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-var bcrypt   = require('bcrypt')
+var bcrypt = require('bcrypt')
 
 var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
 
@@ -23,25 +23,39 @@ var UserSchema = new mongoose.Schema({
     minlength: [6, 'Password must be between 6 and 99 characters'],
     maxlength: [99, 'Password must be between 8 and 99 characters'],
   },
+  admin: {
+    type: Boolean,
+    default: false
+  },
   attending: {
     type: Boolean,
     default: false
+  },
+  table: {
+    type: String,
+    default: 'NOT SET'
+  },
+  group: {
+    type: String,
+    default: 'NOT SET'
   },
   foodPref: {
     type: String,
     default: 'NO INDICATION'
   },
-  addGuest: {
+  headCountAllowed: {
+    type: Number,
+    default: 2
+  },
+  headCountSelected: {
+    type: Number,
+    default: 1
+  },
+  checkedin: {
     type: Number,
     default: 0
-  },
-  admin: {
-    type: Boolean,
-    default: false
   }
 })
-
-var bcrypt = require('bcrypt')
 
 UserSchema.pre('save', function(next) {
    var user = this
@@ -52,8 +66,8 @@ UserSchema.pre('save', function(next) {
 })
 
 UserSchema.methods.validPassword = function(password) {
-  return bcrypt.compareSync(password, this.password);
-};
+  return bcrypt.compareSync(password, this.password)
+}
 
 UserSchema.options.toJSON = {
     transform: function(doc, ret, options) {

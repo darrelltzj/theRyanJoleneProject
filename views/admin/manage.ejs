@@ -1,0 +1,19 @@
+<div class="admin-dimmer">
+  <div class="panel panel-default" id="manage-list">
+    <div class="panel-heading">
+      Guest List
+    </div>
+    <div class="panel-body">
+      <input type="text" class="form-control" id="nameSearch" placeholder="Name">
+      <ul class="list-group" id="guestList">
+        <% usersArr.forEach(function (user) { %>
+          <li class="list-group-item">
+            <a href="#">
+            <%= user.name %>
+            </a>
+          </li>
+        <% }) %>
+      <ul>
+    </div>
+  </div>
+</div>
