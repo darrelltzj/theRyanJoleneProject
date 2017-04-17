@@ -10,10 +10,22 @@ var TableSchema = new mongoose.Schema({
     type: Number,
     default: 10
   },
-  reservedFor: [{
-    type: mongoose.Schema.ObjectId,
-    ref: 'User'
-  }]
+  plannedFor: {
+    type: Number,
+    default: 0
+  },
+  reservedFor: {
+    type: Number,
+    default: 0
+  },
+  checkedIn: {
+    type: Number,
+    default: 0
+  }
+  // reservedFor: [{
+  //   type: mongoose.Schema.ObjectId,
+  //   ref: 'User'
+  // }]
 })
 
 var Table = mongoose.model('Table', TableSchema)

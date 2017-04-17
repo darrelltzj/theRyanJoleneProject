@@ -1,4 +1,6 @@
 var mongoose = require('mongoose')
+// mongoose-relationship
+// const relationship = require('mongoose-relationship')
 var bcrypt = require('bcrypt')
 
 var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
@@ -34,6 +36,7 @@ var UserSchema = new mongoose.Schema({
   table: {
     type: mongoose.Schema.ObjectId,
     ref: 'Table'
+    // ,childPath:'reservedFor' // mongoose-relationship
   },
   group: {
     type: String,
@@ -76,6 +79,9 @@ UserSchema.options.toJSON = {
         return ret;
     }
 }
+
+// mongoose-relationship
+// UserSchema.plugin(relationship, {relationshipPathName: 'table'})
 
 var User = mongoose.model('User', UserSchema)
 

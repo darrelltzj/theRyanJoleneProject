@@ -46,21 +46,15 @@
     <div class="form-group">
       <label for=" " class="update-label">Table</label>
       <select name="table">
-        <option value="1"
-        <% if (user.table == 1) { %>
-          selected
-        <% } %>
-        >1</option>
-        <option value="2"
-        <% if (user.table == 2) { %>
-          selected
-        <% } %>
-        >2</option>
-        <option value="NOT SET"
-        <% if (user.table == 'NOT SET') { %>
-          selected
-        <% } %>
-        >NOT SET</option>
+        <% tablesArr.forEach(function (theTable) { %>
+          <option value="<%= theTable._id%>"
+          <% if (user.table.toString() == theTable._id.toString()) { %>
+            selected
+          <% } %>
+          >
+          <%= theTable.name%>
+          </option>
+        <% }) %>
       </select>
     </div>
 
@@ -103,6 +97,10 @@
     <% include ../partials/alerts %>
 
     <input type="hidden" name="id" value=<%= user.id%>>
+    <input type="hidden" name="prevTable" value=<%= user.table%>>
+    <input type="hidden" name="prevHeadCountAllowed" value=<%= user.headCountAllowed%>>
+    <input type="hidden" name="prevHeadCountSelected" value=<%= user.headCountSelected%>>
+    <input type="hidden" name="prevCheckedIn" value=<%= user.checkedin%>>
 
     <button type="submit" class="btn btn-primary" name="action" value="update">Update</button>
     <button type="submit" class="btn btn-primary btn-danger" name="action" value="remove">Disinvite</button>

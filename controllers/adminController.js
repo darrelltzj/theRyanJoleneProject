@@ -32,52 +32,43 @@ const adminManageController = {
       })
     })
   },
-  getAdminEditGuest: function (req, res) {
-    User.findById(req.params.id, (err, user) => {
-      if (err) throw err
-      // console.log('user: ',user)
-      res.render('./admin/manageEditGuest', {
-        user: user
+  getAdminAddTable: function (req, res) {
+    res.render('./admin/manageAddTable')
+  },
+  postAdminAddTable: function (req, res) {
+    let newTable = new Table({
+      name: req.body.name,
+      capacity: req.body.capacity
+    })
+    newTable.save(function (err, savedTable) {
+      if (err) console.error(err)
+      res.redirect('/admin')
+    })
+  },
+  getAdminEditTable: function (req, res) {
+    Table.findById(req.params.id, (err, table) => {
+      if (err) console.error(err)
+      res.render('./admin/manageEditTable', {
+        table: table
       })
     })
   },
-  postAdminEditGuest: function (req, res) {
-    // console.log('form: ', req.body, 'id: ', req.params)
-    // async.parallel([
-    //   function (callback) {
-    //     User.find({}, callback)
-    //   }
-    // ], function (err, results) {
-    //   if (err) console.error(err)
-    //   res.render('./admin/manage', {
-    //   })
-    // })
-    if (req.body.action == 'update') {
-      // async
-      User.findOneAndUpdate({
-        _id: req.body.id
-      }, {
-        name: req.body.name,
-        email: req.body.email,
-        admin: req.body.admin,
-        attending: req.body.attending,
-        table: req.body.table,
-        group: req.body.group,
-        foodPref: req.body.foodPref,
-        headCountAllowed: req.body.headCountAllowed,
-        headCountSelected: req.body.headCountSelected
-      }, function (err, data) {
-        if (err) console.error(err)
-        res.redirect('/admin')
-      })
-    }
-    else if (req.body.action == 'remove') {
-      // async
-      User.findByIdAndRemove(req.body.id, function (err, user) {
-        if (err) console.error(err)
-        res.redirect('/admin')
-      })
-    }
+  postAdminEditTable: function (req, res) {
+    console.log(req.body)
+    async.parallel([
+      function (callback) {
+        Table.findOneAndUpdate({
+          _id: req.body.id
+        }, {
+          name: req.body.name,
+          capacity: req.body.capacity
+        }, callback)
+      }
+    ], function (err, results) {
+      if (err) console.error(err)
+      console.log(results)
+      res.redirect('/admin')
+    })
   },
   getAdminAddGuest: function (req, res) {
     async.parallel([
@@ -123,8 +114,9 @@ const adminManageController = {
         Table.findOneAndUpdate({
           _id: req.body.table
         }, {
-          $addToSet: {
-            reservedFor: savedGuest._id
+          $inc: {
+            plannedFor: savedGuest.headCountAllowed,
+            reservedFor: savedGuest.headCountSelected
           }
         }, callback)
       }
@@ -133,43 +125,100 @@ const adminManageController = {
       res.redirect('/admin')
     })
   },
-  getAdminAddTable: function (req, res) {
-    res.render('./admin/manageAddTable')
-  },
-  postAdminAddTable: function (req, res) {
-    let newTable = new Table({
-      name: req.body.name,
-      capacity: req.body.capacity
-    })
-    newTable.save(function (err, savedTable) {
-      if (err) console.error(err)
-      res.redirect('/admin')
-    })
-  },
-  getAdminEditTable: function (req, res) {
-    Table.findById(req.params.id, (err, table) => {
-      if (err) console.error(err)
-      res.render('./admin/manageEditTable', {
-        table: table
-      })
-    })
-  },
-  postAdminEditTable: function (req, res) {
-    console.log(req.body)
+  getAdminEditGuest: function (req, res) {
     async.parallel([
       function (callback) {
-        Table.findOneAndUpdate({
-          _id: req.body.id
-        }, {
-          name: req.body.name,
-          capacity: req.body.capacity
-        }, callback)
+        Table.find({}, callback)
+      },
+      function (callback) {
+        Group.find({}, callback)
+      },
+      function (callback) {
+        User.findById(req.params.id, callback)
       }
     ], function (err, results) {
       if (err) console.error(err)
-      console.log(results)
-      res.redirect('/admin')
+      res.render('./admin/manageEditGuest', {
+        tablesArr: results[0],
+        groupsArr: results[1],
+        user: results[2]
+      })
     })
+  },
+  postAdminEditGuest: function (req, res) {
+    if (req.body.action === 'update') {
+      async.parallel([
+        function (callback) {
+          User.findOneAndUpdate({
+            _id: req.body.id
+          }, {
+            name: req.body.name,
+            email: req.body.email,
+            admin: req.body.admin,
+            attending: req.body.attending,
+            table: req.body.table,
+            group: req.body.group,
+            foodPref: req.body.foodPref,
+            headCountAllowed: req.body.headCountAllowed,
+            headCountSelected: req.body.headCountSelected
+          }, callback)
+        },
+        function (callback) {
+          Table.findOneAndUpdate({
+            _id: req.body.prevTable
+          }, {
+            $inc: {
+              plannedFor: -req.body.prevHeadCountAllowed,
+              reservedFor: -req.body.prevHeadCountSelected,
+              checkedIn: -req.body.prevCheckedIn
+            }
+          }, callback)
+        },
+        function (callback) {
+          Table.findOneAndUpdate({
+            _id: req.body.table
+          }, {
+            $inc: {
+              plannedFor: req.body.headCountAllowed,
+              reservedFor: req.body.headCountSelected,
+              checkedIn: req.body.prevCheckedIn
+            }
+          }, callback)
+        }
+      ], function (err, results) {
+        if (err) console.error(err)
+        // console.log(results)
+        res.redirect('/admin')
+      })
+    }
+    else if (req.body.action === 'remove') {
+      // async
+      async.parallel([
+        function (callback) {
+          User.findByIdAndRemove({
+            _id: req.body.id
+          }, callback)
+        },
+        function (callback) {
+          Table.findOneAndUpdate({
+            _id: req.body.prevTable
+          }, {
+            $inc: {
+              plannedFor: -req.body.prevHeadCountAllowed,
+              reservedFor: -req.body.prevHeadCountSelected,
+              checkedIn: -req.body.prevCheckedIn
+            }
+          }, callback)
+        }
+      ], function (err, results) {
+        if (err) console.error(err)
+        res.redirect('/admin')
+      })
+      // User.findByIdAndRemove(req.body.id, function (err, user) {
+      //   if (err) console.error(err)
+      //   res.redirect('/admin')
+      // })
+    }
   },
   getAdminCheckIn: function (req, res) {
     User.find({}, function (err, usersArr) {

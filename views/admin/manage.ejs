@@ -17,7 +17,9 @@
               <tr>
                   <th>Name</th>
                   <th>Total Capacity</th>
+                  <th>Planned for</th>
                   <th>Reserved for</th>
+                  <th>Checked In</th>
                   <th>
                     <form action="/admin/table/add">
                     <button class="btn btn-xs btn-success" id="addTable">
@@ -37,7 +39,13 @@
                   <%= table.capacity%>
                 </td>
                 <td>
-                  <%= table.reservedFor.length%>
+                  <%= table.plannedFor%>
+                </td>
+                <td>
+                  <%= table.reservedFor%>
+                </td>
+                <td>
+                  <%= table.checkedIn%>
                 </td>
                 <td>
                 <form action="/admin/table/<%= table._id %>">
