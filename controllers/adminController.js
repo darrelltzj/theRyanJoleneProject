@@ -54,21 +54,38 @@ const adminManageController = {
     })
   },
   postAdminEditTable: function (req, res) {
-    console.log(req.body)
-    async.parallel([
-      function (callback) {
-        Table.findOneAndUpdate({
-          _id: req.body.id
-        }, {
-          name: req.body.name,
-          capacity: req.body.capacity
-        }, callback)
-      }
-    ], function (err, results) {
-      if (err) console.error(err)
-      console.log(results)
-      res.redirect('/admin')
-    })
+    if (req.body.action === 'update') {
+      Table.findOneAndUpdate({
+        _id: req.body.id
+      }, {
+        name: req.body.name,
+        capacity: req.body.capacity
+      }, function (err, results) {
+        if (err) console.error(err)
+        console.log(results)
+        res.redirect('/admin')
+      })
+    }
+    else if (req.body.action === 'remove') {
+      async.parallel([
+        function (callback) {
+          User.update({
+            table: req.body.id
+          }, {
+            table: null
+          }, callback)
+        },
+        function (callback) {
+          Table.findByIdAndRemove({
+            _id: req.body.id
+          }, callback)
+        }
+      ], function (err, results) {
+        if (err) console.error(err)
+        // console.log(results)
+        res.redirect('/admin')
+      })
+    }
   },
   getAdminAddGuest: function (req, res) {
     async.parallel([

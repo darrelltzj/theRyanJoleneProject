@@ -1,5 +1,5 @@
 .home-background {
-  background-image: url("/img/1.jpg");
+  background-image: url("/img/0.jpg");
   background-size: cover;
   width: 100vw;
   height: 100vh;
@@ -34,15 +34,16 @@ header {
   /*background-color: #fee;*/
   width: 100vw;
   position: absolute;
-  bottom: 35vh;
-  height: 30vh;
+  bottom: 34vh;
+  height: 28vh;
 }
 
 .home-title {
   padding: 0.2%;
   text-align: center;
   font-family: cursive;
-  font-size: 500%;
+  font-size: 6em;
+  /*font-size: 500%;*/
   color: black;
 }
 
@@ -50,7 +51,8 @@ header {
   padding: 0.2%;
   text-align: center;
   font-family: cursive;
-  font-size: 200%;
+  font-size: 4em;
+  /*font-size: 200%;*/
   color: black;
 }
 
@@ -133,6 +135,15 @@ header {
     margin-left: -15vw;
     margin-top: -20vh;
   }
+
+#admin-settings{
+  position: absolute;
+  width: 90vw;
+  left: 50vw;
+  margin-left: -45vw;
+  margin-top: 10vh;
+  z-index:100;
+}
 
 .dimmer {
   width:100%;

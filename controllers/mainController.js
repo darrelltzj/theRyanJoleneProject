@@ -1,9 +1,12 @@
 const express = require('express')
+const Table = require('../models/table')
 const User = require('../models/user')
 const passport = require('../config/passport')
+const async = require('async')
 
 const mainController = {
   getMain: function (req, res) {
+    // console.log('user', req.user)
     res.render('./home')
   },
   getSignup: function (req, res) {
@@ -45,7 +48,7 @@ const mainController = {
     //     })(req, res)
     //   }
     // })
-    
+
   },
   getLogin: function (req, res) {
     res.render('./auth/login')
@@ -60,16 +63,44 @@ const mainController = {
     })
   },
   postPreference: function (req, res) {
-    User.findOneAndUpdate({
-      _id: req.user._id
-    }, {
-      attending: req.body.attending,
-      foodPref: req.body.foodPref,
-      headCountSelected: parseInt(req.body.addGuest) + 1
-    }, function (err, theUser) {
+    // console.log('body', req.body)
+    // console.log('user', req.user)
+    var totalHeadCount
+    var headCountDiff
+    async.series([
+      function (callback) {
+        if (req.body.attending) {
+          totalHeadCount = parseInt(req.body.addGuest) + 1
+          headCountDiff = totalHeadCount - req.body.prevHeadCountSelected
+          callback()
+        } else {
+          totalHeadCount = 0
+          headCountDiff = totalHeadCount - req.body.prevHeadCountSelected
+          callback()
+        }
+      },
+      function (callback) {
+        User.findOneAndUpdate({
+          _id: req.user._id
+        }, {
+          attending: req.body.attending,
+          foodPref: req.body.foodPref,
+          headCountSelected: totalHeadCount
+        }, callback)
+      },
+      function (callback) {
+        Table.findOneAndUpdate({
+          _id: req.user.table
+        }, {
+          $inc: {
+            reservedFor: headCountDiff
+          }
+        }, callback)
+      }
+    ], function (err, results) {
       if (err) console.error(err)
-      // console.log(theUser, req.body, req.user)
-      console.log(res.locals.currentUser)
+      // console.log('theUser', results)
+      // console.log(res.locals.currentUser)
       res.redirect('/')
     })
   },

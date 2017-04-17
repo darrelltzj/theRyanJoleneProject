@@ -48,7 +48,7 @@
       <select name="table">
         <% tablesArr.forEach(function (theTable) { %>
           <option value="<%= theTable._id%>"
-          <% if (user.table.toString() == theTable._id.toString()) { %>
+          <% if (user.table && user.table.toString() == theTable._id.toString()) { %>
             selected
           <% } %>
           >

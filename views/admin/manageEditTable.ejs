@@ -2,7 +2,7 @@
 <div id="form-editTable">
   <form action="" method="POST">
     <div class="form-group">
-      <label for="name" class="update-label">Name</label>
+      <label for="name" class="update-label">Table Name</label>
       <input type="text" class="form-control" value="<%= table.name%>" name="name">
     </div>
 
@@ -15,6 +15,7 @@
 
     <input type="hidden" name="id" value=<%= table.id%>>
 
-    <button type="submit" class="btn btn-primary">Update</button>
+    <button type="submit" class="btn btn-primary" name="action" value="update">Update</button>
+    <button type="submit" class="btn btn-primary btn-danger" name="action" value="remove">Remove</button>
   </form>
 </div>

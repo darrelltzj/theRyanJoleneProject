@@ -1,35 +1,35 @@
 <div class="dimmer"></div>
 <div id="form-preference">
-  <form action="/preference" method="POST">
+  <form action="" method="POST">
     <div class="form-group">
       <label for="attending">Attending</label>
       <select class="attending" name="attending">
-        <option value="true">Yes</option>
-        <option value="false">No</option>
+        <option value="true"
+        <% if (user.attending) { %>
+          selected
+        <% } %>
+        >Yes</option>
+        <option value="false"
+        <% if (!user.attending) { %>
+          selected
+        <% } %>
+        >No</option>
       </select>
     </div>
 
     <div class="form-group">
       <label for="foodPref">Food Preference</label>
-      <select class="foodPref" name="foodPref">
-        <option value="any">Any</option>
-        <option value="halal">Halal</option>
-        <option value="vegetarian">Vegetarian</option>
-        <option value="other">Other</option>
-      </select>
+      <input type="text" class="form-control" id="foodPref" placeholder="eg. Any, Halal, Vegetarian etc." name="foodPref" value=<%= user.foodPref%>>
     </div>
     <% if (user.headCountAllowed > 1) { %>
       <div class="form-group">
         <label for="addGuest">Additional Guests</label>
-        <select class="addGuest" name="addGuest">
-        <% for (var i=0; i < user.headCountAllowed; i++) { %>
-          <option value="<%= i %>">
-          <%= i %>
-          </option>
-        <% } %>
-        </select>
+        <input type="number" class="form-control" id="addGuest" placeholder="" name="addGuest" value=<%= user.headCountSelected - 1 %> max=<%= user.headCountAllowed - 1 %> min=0>
       </div>
     <% } %>
+
+    <input type="hidden" name="prevHeadCountSelected" value=<%= user.headCountSelected%>>
+
     <button type="submit" class="btn btn-primary" id="preference-submit">Update</button>
   </form>
 </div>
