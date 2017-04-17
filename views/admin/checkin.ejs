@@ -7,12 +7,29 @@
       <input type="text" class="form-control" id="nameSearch" placeholder="Name">
       <ul class="list-group" id="guestList">
         <% usersArr.forEach(function (user) { %>
-          <li class="list-group-item">
-            <a href="#">
-            <%= user.name %>
-            </a>
-          </li>
+          <% if (user.headCountSelected > 0) { %>
+            <li class="list-group-item">
+              <a href=<%= "/admin/checkin/" + user.id %>>
+                <%= user.name %>
+              </a>
+              <span class=
+              <% if (user.checkedin == user.headCountSelected) { %>
+                "label label-success"
+              <% } else { %>
+                "label label-warning"
+              <% } %>>
+                <%= user.checkedin %> / <%= user.headCountSelected %>
+              </span>
+              <span>
+              Table:
+              <%= user.table.name%>
+              </span>
+            </li>
+          <% } %>
         <% }) %>
       <ul>
     </div>
+  </div>
+  <div>
+    <img id="floorplan" src="/img/floor.png" alt="">
   </div>

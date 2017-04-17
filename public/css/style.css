@@ -112,6 +112,23 @@ header {
   margin-top: -10vh;
 }
 
+.list-group-item {
+  display: flex;
+  justify-content: flex-start;
+
+}
+
+#floorplan {
+  position: absolute;
+  z-index: 100;
+  width: 75vw;
+  padding: 20px;
+  right: 0vw;
+  top: 50vh;
+  margin-left: 0vw;
+  margin-top: -34vh;
+}
+
 #form-updateGuest, #form-addGuest{
     position: absolute;
     color: black;

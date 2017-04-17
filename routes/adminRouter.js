@@ -25,4 +25,8 @@ router.route('/table/:id')
 router.route('/checkin')
 .get(adminController.getAdminCheckIn)
 
+router.route('/checkin/:id')
+.get(adminController.getAdminCheckInGuest)
+.post(adminController.postAdminCheckInGuest)
+
 module.exports = router

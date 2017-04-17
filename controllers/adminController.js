@@ -148,17 +148,13 @@ const adminManageController = {
         Table.find({}, callback)
       },
       function (callback) {
-        Group.find({}, callback)
-      },
-      function (callback) {
         User.findById(req.params.id, callback)
       }
     ], function (err, results) {
       if (err) console.error(err)
       res.render('./admin/manageEditGuest', {
         tablesArr: results[0],
-        groupsArr: results[1],
-        user: results[2]
+        user: results[1]
       })
     })
   },
@@ -238,11 +234,42 @@ const adminManageController = {
     }
   },
   getAdminCheckIn: function (req, res) {
-    User.find({}, function (err, usersArr) {
+    User.find({}).populate('table').exec( function (err, usersArr) {
       if (err) console.error(err)
       res.render('./admin/checkin', {
         usersArr: usersArr
       })
+    })
+  },
+  getAdminCheckInGuest: function (req, res) {
+    User.findById(req.params.id).populate('table').exec( function (err, user) {
+      if (err) console.error(err)
+      res.render('./admin/checkinGuest', {
+        user: user
+      })
+    })
+  },
+  postAdminCheckInGuest: function (req, res) {
+    async.parallel([
+      function (callback) {
+        User.findOneAndUpdate({
+          _id: req.params.id
+        }, {
+          checkedin: req.body.checkedin
+        }, callback)
+      },
+      function (callback) {
+        Table.findOneAndUpdate({
+          _id: req.body.guestTableId
+        }, {
+          $inc: {
+            checkedIn: req.body.checkedin - req.body.prevCheckedIn
+          }
+        }, callback)
+      }
+    ], function (err, results) {
+      if (err) console.error(err)
+      res.redirect('/admin/checkin')
     })
   }
 }

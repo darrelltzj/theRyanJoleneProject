@@ -1,0 +1,17 @@
+<div class="dimmer"></div>
+<div id="form-updateGuest">
+  <h2 class="update-label">WELCOME</h2>
+  <h2 class="update-label"> <%= user.name%> </h2>
+  <h2 class="update-label">Table: <%= user.table.name%> </h2>
+  <form action="" method="POST">
+    <div class="form-group">
+      <label for="" class="update-label">Check In Quantity</label>
+      <input type="number" class="form-control" value="<%= user.checkedin%>" name="checkedin" min=0 max=<%= user.headCountAllowed%>>
+    </div>
+
+    <input type="hidden" name="prevCheckedIn" value=<%= user.checkedin%>>
+    <input type="hidden" name="guestTableId" value=<%= user.table._id %>>
+
+    <button type="submit" class="btn btn-primary" name="action" value="update">Update</button>
+  </form>
+</div>
