@@ -95,7 +95,11 @@
                 <%= guest.attending%>
               </td>
               <td>
+              <% if (guest.table) { %>
                 <%= guest.table.name%>
+              <% } else { %>
+                <%= 'NILL'%>
+              <% } %>
               </td>
               <td>
                 <%= guest.group%>

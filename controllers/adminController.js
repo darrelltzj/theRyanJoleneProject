@@ -21,8 +21,8 @@ const adminManageController = {
         Table.find({}, callback)
       },
       function (callback) {
-        User.find({}, callback)
-      } // populate
+        User.find({}, callback).populate('table').exec()
+      }
     ], function (err, results) {
       if (err) console.error(err)
       // console.log(results)
@@ -97,7 +97,7 @@ const adminManageController = {
     })
   },
   postAdminAddGuest: function (req, res) {
-    console.log(req.body)
+    var savedGuest
     let newGuest = new User({
       name: req.body.name,
       email: req.body.email,
@@ -110,21 +110,28 @@ const adminManageController = {
       headCountSelected: req.body.headCountSelected,
       password: randomString(6)
     })
-    async.parallel([
+    async.series([
       function (callback) {
-        newGuest.save({}, callback)
+        newGuest.save(function (err, theGuest) {
+          // flash
+          if (err) console.error(err)
+          savedGuest = theGuest
+          callback()
+        })
+      },
+      function (callback) {
+        Table.findOneAndUpdate({
+          _id: req.body.table
+        }, {
+          $addToSet: {
+            reservedFor: savedGuest._id
+          }
+        }, callback)
       }
     ], function (err, results) {
       if (err) console.error(err)
       res.redirect('/admin')
     })
-    // newGuest.save(function (err, theGuest) {
-    //   // async find table and update
-    //   // flash
-    //   if (err) console.error(err)
-    //   console.log(theGuest)
-    //   res.redirect('/admin')
-    // })
   },
   getAdminAddTable: function (req, res) {
     res.render('./admin/manageAddTable')

@@ -31,10 +31,10 @@ var UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  table: [{
+  table: {
     type: mongoose.Schema.ObjectId,
     ref: 'Table'
-  }],
+  },
   group: {
     type: String,
     default: 'NOT SET'

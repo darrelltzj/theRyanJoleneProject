@@ -31,7 +31,11 @@
       <label for=" " class="update-label">Table</label>
       <select name="table">
         <% tablesArr.forEach(function (table) { %>
-          <option value="<%= table._id%>">
+          <option value="<%= table._id%>"
+          <% if (table.name == 'NOT SET') { %>
+            <%= 'selected'%>
+          <% } %>
+          >
           <%= table.name%>
           </option>
         <% }) %>
