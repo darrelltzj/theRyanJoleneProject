@@ -9,10 +9,6 @@ const haveInit = require('../middleware/haveInit')
 router.route('/')
 .get(isLoggedIn, haveInit, mainController.getMain)
 
-router.route('/signup')
-.get(isLoggedOut, mainController.getSignup)
-.post(mainController.postSignup)
-
 router.route('/login')
 .get(isLoggedOut, mainController.getLogin)
 .post(passport.authenticate('local', {
@@ -29,6 +25,7 @@ router.route('/changepassword')
 router.route('/preference')
 .get(isLoggedIn, haveInit, mainController.getPreference)
 .post(isLoggedIn, haveInit, mainController.postPreference)
+
 router.route('/logout')
 .get(isLoggedIn, mainController.getLogout)
 

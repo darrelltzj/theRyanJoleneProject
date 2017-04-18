@@ -9,11 +9,6 @@ const mainController = {
     // console.log('user', req.user)
     res.render('./home')
   },
-  getSignup: function (req, res) {
-    res.render('./auth/signup', {
-      flash: req.flash('error')
-    })
-  },
   getLogin: function (req, res) {
     res.render('./auth/login')
   },
@@ -101,28 +96,9 @@ const mainController = {
     })
   },
   getLogout: function (req, res) {
-    // ---IF NOT PRIVATE EVENT---
     req.logout()
     req.flash('success', 'You have logged out')
     res.redirect('/login')
-  },
-  postSignup: function (req, res) {
-    let user = new User({
-      email: req.body.email,
-      name: req.body.name,
-      password: req.body.password
-    })
-    user.save(function (err, createdUser) {
-      if (err) {
-        req.flash('error', 'Unable to create user account')
-        res.redirect('/signup')
-      } else {
-        passport.authenticate('local', {
-          successRedirect: '/preference',
-          successFlash: 'Account created and logged in'
-        })(req, res)
-      }
-    })
   }
 }
 
