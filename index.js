@@ -4,6 +4,7 @@ const path = require('path')
 const ejsLayouts = require('express-ejs-layouts')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
 const session = require('express-session')
 const passport = require('./config/passport')
 const MongoStore = require('connect-mongo')(session)
@@ -26,6 +27,8 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use(express.static(path.join(__dirname, 'public')))
+
+app.use(methodOverride('_method'))
 
 app.use(bodyParser.urlencoded({ extended: false }))
 

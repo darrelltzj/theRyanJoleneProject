@@ -82,6 +82,9 @@ const adminManageController = {
       })
     }
   },
+  // deleteTable: function (req, res) {
+  //
+  // },
   getAdminAddGuest: function (req, res) {
     async.parallel([
       function (callback) {
@@ -277,6 +280,9 @@ const adminManageController = {
       })
     }
   },
+  // deleteGuest: function (req, res) {
+  //
+  // },
   getAdminCheckIn: function (req, res) {
     User.find({}).populate('table').exec( function (err, usersArr) {
       if (err) console.error(err)
