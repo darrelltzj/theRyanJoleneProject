@@ -21,11 +21,11 @@ var TableSchema = new mongoose.Schema({
   checkedIn: {
     type: Number,
     default: 0
+  },
+  permanent: {
+    type: Boolean,
+    default: false
   }
-  // reservedFor: [{
-  //   type: mongoose.Schema.ObjectId,
-  //   ref: 'User'
-  // }]
 })
 
 var Table = mongoose.model('Table', TableSchema)

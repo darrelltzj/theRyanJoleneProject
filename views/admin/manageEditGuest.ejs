@@ -95,7 +95,11 @@
     <input type="hidden" name="prevCheckedIn" value=<%= user.checkedin%>>
 
     <button type="submit" class="btn btn-primary" name="action" value="update">Update</button>
-    <button type="submit" class="btn btn-primary btn-danger" name="action" value="remove">Disinvite</button>
+
+    <%if (!user.permanent) { %>
+      <button type="submit" class="btn btn-primary btn-danger" name="action" value="remove">Disinvite</button>
+    <% } %>
+
   </form>
 
 </div>

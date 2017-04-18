@@ -1,7 +1,6 @@
 const express = require('express')
 const Event = require('../models/event')
 const Table = require('../models/table')
-const Group = require('../models/group')
 const User = require('../models/user')
 const passport = require('../config/passport')
 const async = require('async')
@@ -9,62 +8,10 @@ require('dotenv').config({ silent: true })
 
 const passphrase = process.env.PASSPHRASE
 
-// var randomString = function (len) {
-//     var theRandomString = ''
-//     var possibleChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-//     for (var i = 0; i < len; i++)
-//         theRandomString += possibleChar.charAt(Math.floor(Math.random() * possibleChar.length))
-//     return theRandomString
-// }
-
 const adminManageController = {
   getAdminManage: function (req, res) {
     var usersWithTable
     async.series([
-      // ---Figuring out how to comile table values from user (NOT WORKING)---
-      // function (callback) {
-      //   Table.find({}, function (err, tablesArray) {
-      //     tablesArray.forEach(function (table) {
-      //       Table.findOneAndUpdate({
-      //         _id: table._id
-      //       }, {
-      //         plannedFor: 0,
-      //         reservedFor: 0,
-      //         checkedIn: 0
-      //       }, function (err, data) {
-      //       })
-      //     })
-      //     callback()
-      //   })
-      // },
-      // function (callback) {
-      //   User.find({}, function (err, usersArray) {
-      //     usersWithTable = usersArray.map(function (user) {
-      //       if (user.table) {
-      //         return user
-      //       }
-      //     })
-      //     callback()
-      //   })
-      // },
-      // function (callback) {
-      //   // console.log(usersWithTable)
-      //   usersWithTable.forEach(function (user) {
-      //     // console.log(user)
-      //     Table.findOneAndUpdate({
-      //       _id: user.table
-      //     }, {
-      //       $inc: {
-      //         plannedFor: user.headCountAllowed,
-      //         reservedFor: user.headCountSelected,
-      //         checkedIn: user.checkedin
-      //       }
-      //     }, function (err, data) {
-      //       console.log('updated', data)
-      //     })
-      //   })
-      //   callback()
-      // },
       function (callback) {
         Table.find({}, callback)
       },
@@ -139,56 +86,78 @@ const adminManageController = {
     async.parallel([
       function (callback) {
         Table.find({}, callback)
-      },
-      function (callback) {
-        Group.find({}, callback)
       }
     ], function (err, results) {
       if (err) console.error(err)
       // console.log(results)
       res.render('./admin/manageAddGuest', {
-        tablesArr: results[0],
-        groupsArr: results[1]
+        tablesArr: results[0]
       })
     })
   },
   postAdminAddGuest: function (req, res) {
     var savedGuest
-    let newGuest = new User({
-      name: req.body.name,
-      email: req.body.email,
-      admin: req.body.admin,
-      attending: req.body.attending,
-      table: req.body.table,
-      group: req.body.group,
-      foodPref: req.body.foodPref,
-      headCountAllowed: req.body.headCountAllowed,
-      headCountSelected: req.body.headCountSelected,
-      password: passphrase
-    })
-    async.series([
-      function (callback) {
-        newGuest.save(function (err, theGuest) {
-          // flash
-          if (err) console.error(err)
-          savedGuest = theGuest
-          callback()
-        })
-      },
-      function (callback) {
-        Table.findOneAndUpdate({
-          _id: req.body.table
-        }, {
-          $inc: {
-            plannedFor: savedGuest.headCountAllowed,
-            reservedFor: savedGuest.headCountSelected
+    var totalHeadCount
+    if (req.body.attending == 'true') {
+      totalHeadCount = parseInt(req.body.addGuest) + 1
+    }
+    else if (req.body.attending == 'false') {
+      totalHeadCount = 0
+    }
+    if (!req.body.name || !req.body.email || req.body.headCountAllowed < totalHeadCount || req.body.checkedin > totalHeadCount) {
+      req.flash('error', 'Error in input. Please Check.')
+      res.redirect('/admin/guest/add')
+    }
+    else {
+      async.series([
+        function (callback) {
+          let newGuest = new User({
+            name: req.body.name,
+            email: req.body.email,
+            admin: req.body.admin,
+            attending: req.body.attending,
+            table: req.body.table,
+            foodPref: req.body.foodPref,
+            headCountAllowed: req.body.headCountAllowed,
+            headCountSelected: totalHeadCount,
+            checkedin: req.body.checkedin,
+            password: passphrase
+          })
+          newGuest.save(function (err, theGuest) {
+            if (err || !theGuest) {
+              req.flash('error', 'Error in input. User may already exist. Please Check.')
+              res.redirect('/admin/guest/add')
+            }
+            else {
+              savedGuest = theGuest
+              callback()
+            }
+          })
+        },
+        function (callback) {
+          if (savedGuest) {
+            Table.findOneAndUpdate({
+              _id: req.body.table
+            }, {
+              $inc: {
+                plannedFor: savedGuest.headCountAllowed,
+                reservedFor: savedGuest.headCountSelected
+              }
+            }, callback)
           }
-        }, callback)
-      }
-    ], function (err, results) {
-      if (err) console.error(err)
-      res.redirect('/admin')
-    })
+          else {
+            req.flash('error', 'Error. Unable to update table')
+            res.redirect('/admin/guest/add')
+          }
+        }
+      ], function (err, results) {
+        if (err || !results) {
+          req.flash('error', 'Error in input. Please Check.')
+          res.render('/admin/guest/add')
+        }
+        res.redirect('/admin')
+      })
+    }
   },
   getAdminEditGuest: function (req, res) {
     async.parallel([
@@ -209,64 +178,76 @@ const adminManageController = {
   postAdminEditGuest: function (req, res) {
     var totalHeadCount
     if (req.body.action === 'update') {
-      async.series([
-        function (callback) {
-          if (req.body.attending == 'true') {
-            totalHeadCount = parseInt(req.body.addGuest) + 1
-            callback()
-          } else if (req.body.attending == 'false') {
-            totalHeadCount = 0
-            callback()
+      if (req.body.attending == 'true') {
+        totalHeadCount = parseInt(req.body.addGuest) + 1
+      } else if (req.body.attending == 'false') {
+        totalHeadCount = 0
+      }
+      if (!req.body.name || !req.body.email || req.body.headCountAllowed < totalHeadCount || req.body.checkedin > totalHeadCount) {
+        req.flash('error', 'Error in input. Please Check.')
+        res.redirect('/admin/guest/' + req.params.id)
+      }
+      else {
+        async.series([
+          function (callback) {
+            // user find one
+            // find original table
+            // update table - old values of user
+            // update user with req.body
+            // update new table
+            User.findOneAndUpdate({
+              _id: req.body.id
+            }, {
+              name: req.body.name,
+              email: req.body.email,
+              admin: req.body.admin,
+              attending: req.body.attending,
+              table: req.body.table,
+              foodPref: req.body.foodPref,
+              headCountAllowed: req.body.headCountAllowed,
+              headCountSelected: totalHeadCount,
+              checkedin: req.body.checkedin
+            }, function (err, user) {
+              if (err) {
+                req.flash('error', 'Error in input. Email may already exist. Please Check.')
+                res.redirect('/admin/guest/' + req.params.id)
+              }
+              else {
+                callback()
+              }
+            })
+          },
+          function (callback) {
+            Table.findOneAndUpdate({
+              _id: req.body.prevTable
+            }, {
+              $inc: {
+                plannedFor: -req.body.prevHeadCountAllowed,
+                reservedFor: -req.body.prevHeadCountSelected,
+                checkedIn: -req.body.prevCheckedIn
+              }
+            }, callback)
+          },
+          function (callback) {
+            Table.findOneAndUpdate({
+              _id: req.body.table
+            }, {
+              $inc: {
+                plannedFor: req.body.headCountAllowed,
+                reservedFor: totalHeadCount,
+                checkedIn: req.body.checkedin
+              }
+            }, callback)
           }
-        },
-        function (callback) {
-          // user find one
-          // find original table
-          // update table - old values of user
-          // update user with req.body
-          // update new table
-          User.findOneAndUpdate({
-            _id: req.body.id
-          }, {
-            name: req.body.name,
-            email: req.body.email,
-            admin: req.body.admin,
-            attending: req.body.attending,
-            table: req.body.table,
-            group: req.body.group,
-            foodPref: req.body.foodPref,
-            headCountAllowed: req.body.headCountAllowed,
-            headCountSelected: totalHeadCount,
-            checkedin: req.body.checkedin
-          }, callback)
-        },
-        function (callback) {
-          Table.findOneAndUpdate({
-            _id: req.body.prevTable
-          }, {
-            $inc: {
-              plannedFor: -req.body.prevHeadCountAllowed,
-              reservedFor: -req.body.prevHeadCountSelected,
-              checkedIn: -req.body.prevCheckedIn
-            }
-          }, callback)
-        },
-        function (callback) {
-          Table.findOneAndUpdate({
-            _id: req.body.table
-          }, {
-            $inc: {
-              plannedFor: req.body.headCountAllowed,
-              reservedFor: totalHeadCount,
-              checkedIn: req.body.checkedin
-            }
-          }, callback)
-        }
-      ], function (err, results) {
-        if (err) console.error(err)
-        // console.log(results)
-        res.redirect('/admin')
-      })
+        ], function (err, results) {
+          if (err) {
+            req.flash('error', 'Error in input. Please Check.')
+            res.redirect('/admin/guest/' + req.params.id)
+          }
+          // console.log(results)
+          res.redirect('/admin')
+        })
+      }
     }
     else if (req.body.action === 'remove') {
       // async
@@ -288,13 +269,12 @@ const adminManageController = {
           }, callback)
         }
       ], function (err, results) {
-        if (err) console.error(err)
+        if (err) {
+          req.flash('error', 'Error in removing')
+          res.redirect('/admin/guest/' + req.params.id)
+        }
         res.redirect('/admin')
       })
-      // User.findByIdAndRemove(req.body.id, function (err, user) {
-      //   if (err) console.error(err)
-      //   res.redirect('/admin')
-      // })
     }
   },
   getAdminCheckIn: function (req, res) {

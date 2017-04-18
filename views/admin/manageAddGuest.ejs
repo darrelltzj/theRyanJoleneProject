@@ -43,15 +43,6 @@
     </div>
 
     <div class="form-group">
-      <label for=" " class="update-label">Group</label>
-      <select name="group">
-        <option value="Bride">Bride</option>
-        <option value="Groom">Groom</option>
-        <option value="NOT SET" selected>NOT SET</option>
-      </select>
-    </div>
-
-    <div class="form-group">
       <label for="foodPref" class="update-label">Food Preference</label>
       <input type="text" class="form-control" value="any" name="foodPref">
     </div>
@@ -62,8 +53,13 @@
     </div>
 
     <div class="form-group">
-      <label for=" " class="update-label">Head Count Selected</label>
-      <input type="number" class="form-control" value=0 name="headCountSelected">
+      <label for="addGuest" class="update-label">Additional Guest Selected</label>
+      <input type="number" class="form-control" value=0 name="addGuest" min=0>
+    </div>
+
+    <div class="form-group">
+      <label for="checkedin" class="update-label">Checked In</label>
+      <input type="number" class="form-control" value=0 name="checkedin" min=0>
     </div>
 
     <% include ../partials/alerts %>

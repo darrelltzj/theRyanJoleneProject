@@ -46,13 +46,21 @@ var UserSchema = new mongoose.Schema({
   },
   headCountSelected: {
     type: Number,
-    default: 1
+    default: 1,
+    min: [0, 'Head Count Selected must be at least 0'],
+    max: [this.headCountAllowed, 'Head Count Selected cannot be more than Head Count Allowed']
   },
   checkedin: {
     type: Number,
-    default: 0
+    default: 0,
+    min: [0, 'Number Checked in must be at least 0'],
+    max: [this.headCountSelected, 'Head Count Selected cannot be more than Head Count Selected']
   },
   haveInit: {
+    type: Boolean,
+    default: false
+  },
+  permanent: {
     type: Boolean,
     default: false
   }
