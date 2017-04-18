@@ -16,7 +16,51 @@ var randomString = function (len) {
 
 const adminManageController = {
   getAdminManage: function (req, res) {
-    async.parallel([
+    var usersWithTable
+    async.series([
+      // function (callback) {
+      //   Table.find({}, function (err, tablesArray) {
+      //     tablesArray.forEach(function (table) {
+      //       Table.findOneAndUpdate({
+      //         _id: table._id
+      //       }, {
+      //         plannedFor: 0,
+      //         reservedFor: 0,
+      //         checkedIn: 0
+      //       }, function (err, data) {
+      //       })
+      //     })
+      //     callback()
+      //   })
+      // },
+      // function (callback) {
+      //   User.find({}, function (err, usersArray) {
+      //     usersWithTable = usersArray.map(function (user) {
+      //       if (user.table) {
+      //         return user
+      //       }
+      //     })
+      //     callback()
+      //   })
+      // },
+      // function (callback) {
+      //   // console.log(usersWithTable)
+      //   usersWithTable.forEach(function (user) {
+      //     // console.log(user)
+      //     Table.findOneAndUpdate({
+      //       _id: user.table
+      //     }, {
+      //       $inc: {
+      //         plannedFor: user.headCountAllowed,
+      //         reservedFor: user.headCountSelected,
+      //         checkedIn: user.checkedin
+      //       }
+      //     }, function (err, data) {
+      //       console.log('updated', data)
+      //     })
+      //   })
+      //   callback()
+      // },
       function (callback) {
         Table.find({}, callback)
       },
@@ -172,6 +216,11 @@ const adminManageController = {
           }
         },
         function (callback) {
+          // user find one
+          // find original table
+          // update table - old values of user
+          // update user with req.body
+          // update new table
           User.findOneAndUpdate({
             _id: req.body.id
           }, {
@@ -183,7 +232,8 @@ const adminManageController = {
             group: req.body.group,
             foodPref: req.body.foodPref,
             headCountAllowed: req.body.headCountAllowed,
-            headCountSelected: totalHeadCount
+            headCountSelected: totalHeadCount,
+            checkedin: req.body.checkedin
           }, callback)
         },
         function (callback) {
@@ -204,7 +254,7 @@ const adminManageController = {
             $inc: {
               plannedFor: req.body.headCountAllowed,
               reservedFor: totalHeadCount,
-              checkedIn: req.body.prevCheckedIn
+              checkedIn: req.body.checkedin
             }
           }, callback)
         }

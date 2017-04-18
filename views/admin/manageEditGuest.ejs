@@ -65,7 +65,7 @@
 
     <div class="form-group">
       <label for="headCountAllowed" class="update-label">Head Count Allowed</label>
-      <input type="number" class="form-control" value="<%= user.headCountAllowed%>" name="headCountAllowed">
+      <input type="number" class="form-control" value="<%= user.headCountAllowed%>" name="headCountAllowed" min=1>
     </div>
 
     <div class="form-group">
@@ -78,12 +78,12 @@
         value = <%= user.headCountSelected - 1%>
       <% } %>
 
-      name="addGuest">
+      name="addGuest" min=0>
     </div>
 
     <div class="form-group">
       <label for="checkedin" class="update-label">Checked In</label>
-      <input type="number" class="form-control" value="<%= user.checkedin%>" name="checkedin">
+      <input type="number" class="form-control" value="<%= user.checkedin%>" name="checkedin" min=0>
     </div>
 
     <% include ../partials/alerts %>
