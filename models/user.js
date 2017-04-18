@@ -1,6 +1,4 @@
 var mongoose = require('mongoose')
-// mongoose-relationship
-// const relationship = require('mongoose-relationship')
 var bcrypt = require('bcrypt')
 
 var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
@@ -36,11 +34,6 @@ var UserSchema = new mongoose.Schema({
   table: {
     type: mongoose.Schema.ObjectId,
     ref: 'Table'
-    // ,childPath:'reservedFor' // mongoose-relationship
-  },
-  group: {
-    type: String,
-    default: 'NOT SET'
   },
   foodPref: {
     type: String,
@@ -59,21 +52,11 @@ var UserSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  status: {
-    type: Number,
-    default: 0
-  },
   haveInit: {
     type: Boolean,
     default: false
   }
 })
-
-// ---status---
-// 0: Invited
-// 1: First Log In
-// 2: Changed Password
-// 3: Replied
 
 UserSchema.pre('save', function(next) {
    var user = this
@@ -93,9 +76,6 @@ UserSchema.options.toJSON = {
         return ret;
     }
 }
-
-// mongoose-relationship
-// UserSchema.plugin(relationship, {relationshipPathName: 'table'})
 
 var User = mongoose.model('User', UserSchema)
 
