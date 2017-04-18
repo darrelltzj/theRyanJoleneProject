@@ -14,6 +14,7 @@ const mainController = {
       flash: req.flash('error')
     })
   },
+  // FIX THIS - use for password reset - use a pass phrase instead to sign up
   postSignup: function (req, res) {
     User.findOne({email: req.body.email}, function (err, user) {
       if (user === null) {
