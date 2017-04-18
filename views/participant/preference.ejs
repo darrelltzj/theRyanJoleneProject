@@ -4,12 +4,12 @@
     <div class="form-group">
       <label for="attending">Attending</label>
       <select class="attending" name="attending">
-        <option value="true"
+        <option value=true
         <% if (user.attending) { %>
           selected
         <% } %>
         >Yes</option>
-        <option value="false"
+        <option value=false
         <% if (!user.attending) { %>
           selected
         <% } %>
@@ -24,8 +24,10 @@
     <% if (user.headCountAllowed > 1) { %>
       <div class="form-group">
         <label for="addGuest">Additional Guests</label>
-        <input type="number" class="form-control" id="addGuest" placeholder="" name="addGuest" value=<%= user.headCountSelected - 1 %> max=<%= user.headCountAllowed - 1 %> min=0>
+        <input type="number" class="form-control" id="addGuest" placeholder=<%= user.headCountSelected - 1 %> name="addGuest" value=<%= user.headCountSelected - 1 %> max=<%= user.headCountAllowed - 1 %> min=0>
       </div>
+    <% } else { %>
+      <input type="hidden" class="form-control" id="addGuest" placeholder="" name="addGuest" value=0>
     <% } %>
 
     <input type="hidden" name="prevHeadCountSelected" value=<%= user.headCountSelected%>>

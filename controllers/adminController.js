@@ -159,8 +159,18 @@ const adminManageController = {
     })
   },
   postAdminEditGuest: function (req, res) {
+    var totalHeadCount
     if (req.body.action === 'update') {
-      async.parallel([
+      async.series([
+        function (callback) {
+          if (req.body.attending == 'true') {
+            totalHeadCount = parseInt(req.body.addGuest) + 1
+            callback()
+          } else if (req.body.attending == 'false') {
+            totalHeadCount = 0
+            callback()
+          }
+        },
         function (callback) {
           User.findOneAndUpdate({
             _id: req.body.id
@@ -173,7 +183,7 @@ const adminManageController = {
             group: req.body.group,
             foodPref: req.body.foodPref,
             headCountAllowed: req.body.headCountAllowed,
-            headCountSelected: req.body.headCountSelected
+            headCountSelected: totalHeadCount
           }, callback)
         },
         function (callback) {
@@ -193,7 +203,7 @@ const adminManageController = {
           }, {
             $inc: {
               plannedFor: req.body.headCountAllowed,
-              reservedFor: req.body.headCountSelected,
+              reservedFor: totalHeadCount,
               checkedIn: req.body.prevCheckedIn
             }
           }, callback)

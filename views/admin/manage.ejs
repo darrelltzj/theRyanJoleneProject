@@ -19,7 +19,7 @@
                   <th>Name</th>
                   <th>Total Capacity</th>
                   <th>Planned for</th>
-                  <th>Reserved for</th>
+                  <th>Requested for</th>
                   <th>Checked In</th>
                   <th>
                     <form action="/admin/table/add">
@@ -75,10 +75,10 @@
                   <th>Admin</th>
                   <th>Attending</th>
                   <th>Table</th>
-                  <th>Group</th>
                   <th>Food Preference</th>
                   <th>Planned for</th>
-                  <th>Reserved for</th>
+                  <th>Requested for</th>
+                  <th>Checked In</th>
                   <th>
                     <form action="/admin/guest/add">
                     <button class="btn btn-xs btn-success" id="addGuest">
@@ -111,9 +111,6 @@
               <% } %>
               </td>
               <td>
-                <%= guest.group%>
-              </td>
-              <td>
                 <%= guest.foodPref%>
               </td>
               <td>
@@ -121,6 +118,9 @@
               </td>
               <td>
                 <%= guest.headCountSelected%>
+              </td>
+              <td>
+                <%= guest.checkedin%>
               </td>
               <td>
               <form action="/admin/guest/<%= guest._id %>">

@@ -69,11 +69,11 @@ const mainController = {
     var headCountDiff
     async.series([
       function (callback) {
-        if (req.body.attending) {
+        if (req.body.attending == 'true') {
           totalHeadCount = parseInt(req.body.addGuest) + 1
           headCountDiff = totalHeadCount - req.body.prevHeadCountSelected
           callback()
-        } else {
+        } else if (req.body.attending == 'false') {
           totalHeadCount = 0
           headCountDiff = totalHeadCount - req.body.prevHeadCountSelected
           callback()
