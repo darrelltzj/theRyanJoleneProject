@@ -16,19 +16,25 @@ const mainController = {
   },
   postSignup: function (req, res) {
     User.findOne({email: req.body.email}, function (err, user) {
-      user.password = req.body.password
-      user.save(function (err) {
-        if (err) {
-          req.flash('error', 'Unable to create user account')
-          res.redirect('/signup')
-        }
-        else {
-          passport.authenticate('local', {
-            successRedirect: '/preference',
-            successFlash: 'Account created and logged in'
-          })(req, res)
-        }
-      })
+      if (user === null) {
+        req.flash('error', 'Unable to create user account')
+        res.redirect('/signup')
+      } else {
+        console.log(user)
+        user.password = req.body.password
+        user.save(function (err) {
+          if (err) {
+            req.flash('error', 'Unable to create user account')
+            res.redirect('/signup')
+          }
+          else {
+            passport.authenticate('local', {
+              successRedirect: '/preference',
+              successFlash: 'Account created and logged in'
+            })(req, res)
+          }
+        })
+      }
     })
 
     // ---IF GUESTS DO NOT HAVE TO BE ON THE LIST BEFORE REGISTERING---
