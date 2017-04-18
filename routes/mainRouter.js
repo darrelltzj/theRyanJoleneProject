@@ -4,9 +4,10 @@ const mainController = require('../controllers/mainController')
 const passport = require('../config/passport')
 const isLoggedIn = require('../middleware/isLoggedIn')
 const isLoggedOut = require('../middleware/isLoggedOut')
+const haveInit = require('../middleware/haveInit')
 
 router.route('/')
-.get(mainController.getMain)
+.get(isLoggedIn, haveInit, mainController.getMain)
 
 router.route('/signup')
 .get(isLoggedOut, mainController.getSignup)
@@ -21,10 +22,13 @@ router.route('/login')
   successFlash: 'You have logged in'
 }))
 
-router.route('/preference')
-.get(isLoggedIn, mainController.getPreference)
-.post(isLoggedIn, mainController.postPreference)
+router.route('/changepassword')
+.get(isLoggedIn, mainController.getChangePass)
+.post(isLoggedIn, mainController.postChangePass)
 
+router.route('/preference')
+.get(isLoggedIn, haveInit, mainController.getPreference)
+.post(isLoggedIn, haveInit, mainController.postPreference)
 router.route('/logout')
 .get(isLoggedIn, mainController.getLogout)
 

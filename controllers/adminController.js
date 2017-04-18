@@ -5,19 +5,23 @@ const Group = require('../models/group')
 const User = require('../models/user')
 const passport = require('../config/passport')
 const async = require('async')
+require('dotenv').config({ silent: true })
 
-var randomString = function (len) {
-    var theRandomString = ''
-    var possibleChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-    for (var i = 0; i < len; i++)
-        theRandomString += possibleChar.charAt(Math.floor(Math.random() * possibleChar.length))
-    return theRandomString
-}
+const passphrase = process.env.PASSPHRASE
+
+// var randomString = function (len) {
+//     var theRandomString = ''
+//     var possibleChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+//     for (var i = 0; i < len; i++)
+//         theRandomString += possibleChar.charAt(Math.floor(Math.random() * possibleChar.length))
+//     return theRandomString
+// }
 
 const adminManageController = {
   getAdminManage: function (req, res) {
     var usersWithTable
     async.series([
+      // ---Figuring out how to comile table values from user (NOT WORKING)---
       // function (callback) {
       //   Table.find({}, function (err, tablesArray) {
       //     tablesArray.forEach(function (table) {
@@ -160,7 +164,7 @@ const adminManageController = {
       foodPref: req.body.foodPref,
       headCountAllowed: req.body.headCountAllowed,
       headCountSelected: req.body.headCountSelected,
-      password: randomString(6)
+      password: passphrase
     })
     async.series([
       function (callback) {

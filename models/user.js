@@ -44,7 +44,7 @@ var UserSchema = new mongoose.Schema({
   },
   foodPref: {
     type: String,
-    default: 'Any'
+    default: 'any'
   },
   headCountAllowed: {
     type: Number,
@@ -58,8 +58,22 @@ var UserSchema = new mongoose.Schema({
   checkedin: {
     type: Number,
     default: 0
+  },
+  status: {
+    type: Number,
+    default: 0
+  },
+  haveInit: {
+    type: Boolean,
+    default: false
   }
 })
+
+// ---status---
+// 0: Invited
+// 1: First Log In
+// 2: Changed Password
+// 3: Replied
 
 UserSchema.pre('save', function(next) {
    var user = this

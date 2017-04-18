@@ -2,7 +2,7 @@
 <div id="form-preference">
   <form action="" method="POST">
     <div class="form-group">
-      <label for="attending">Attending</label>
+      <label for="attending" class="update-label">Attending</label>
       <select class="attending" name="attending">
         <option value=true
         <% if (user.attending) { %>
@@ -18,12 +18,12 @@
     </div>
 
     <div class="form-group">
-      <label for="foodPref">Food Preference</label>
+      <label for="foodPref" class="update-label">Food Preference</label>
       <input type="text" class="form-control" id="foodPref" placeholder="eg. Any, Halal, Vegetarian etc." name="foodPref" value=<%= user.foodPref%>>
     </div>
     <% if (user.headCountAllowed > 1) { %>
       <div class="form-group">
-        <label for="addGuest">Additional Guests</label>
+        <label for="addGuest" class="update-label">Additional Guests</label>
         <input type="number" class="form-control" id="addGuest" placeholder=<%= user.headCountSelected - 1 %> name="addGuest" value=<%= user.headCountSelected - 1 %> max=<%= user.headCountAllowed - 1 %> min=0>
       </div>
     <% } else { %>

@@ -1,0 +1,19 @@
+<div class="dimmer"></div>
+<div id="form-signup">
+  <form action="/changepassword" method="POST">
+
+    <div class="form-group">
+      <label for="newPassword" class="auth-label">New Password</label>
+      <input type="password" class="form-control" id="newPassword" placeholder="New Password" name="newPassword">
+    </div>
+
+    <div class="form-group">
+      <label for="passConfirmation" class="auth-label">Confirm Password</label>
+      <input type="password" class="form-control" id="passConfirmation" placeholder="Confirm Password" name="passConfirmation">
+    </div>
+
+    <% include ../partials/alerts %>
+
+    <button type="submit" class="btn btn-primary" id="signup-submit">Update</button>
+  </form>
+</div>

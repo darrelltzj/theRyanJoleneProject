@@ -14,53 +14,42 @@ const mainController = {
       flash: req.flash('error')
     })
   },
-  // FIX THIS - use for password reset - use a pass phrase instead to sign up
-  postSignup: function (req, res) {
-    User.findOne({email: req.body.email}, function (err, user) {
-      if (user === null) {
-        req.flash('error', 'Unable to create user account')
-        res.redirect('/signup')
-      } else {
-        console.log(user)
-        user.password = req.body.password
+  getLogin: function (req, res) {
+    res.render('./auth/login')
+  },
+  getChangePass: function (req, res) {
+    res.render('./auth/changePass', {
+      flash: req.flash('error')
+    })
+  },
+  postChangePass: function (req, res) {
+    User.findOne({email: req.user.email}, function (err, user) {
+      if (req.body.newPassword !== req.body.passConfirmation) {
+        req.flash('error', 'Passwords do not match.')
+        res.redirect('/changepassword')
+      }
+      else {
+        user.password = req.body.newPassword
         user.save(function (err) {
           if (err) {
-            req.flash('error', 'Unable to create user account')
-            res.redirect('/signup')
+            req.flash('error', 'Unable to change password. Password must be more than 6 characters.')
+            res.redirect('/changepassword')
           }
           else {
-            passport.authenticate('local', {
-              successRedirect: '/preference',
-              successFlash: 'Account created and logged in'
-            })(req, res)
+            User.findOneAndUpdate({
+              _id: req.user._id
+            }, {
+              haveInit: true
+            }, function (err, user) {
+              res.redirect('/preference')
+            })
           }
         })
       }
     })
-
-    // ---IF GUESTS DO NOT HAVE TO BE ON THE LIST BEFORE REGISTERING---
-    // let user = new User({
-    //   email: req.body.email,
-    //   name: req.body.name,
-    //   password: req.body.password
-    // })
-    // user.save(function (err, createdUser) {
-    //   if (err) {
-    //     req.flash('error', 'Unable to create user account')
-    //     res.redirect('/signup')
-    //   } else {
-    //     passport.authenticate('local', {
-    //       successRedirect: '/preference',
-    //       successFlash: 'Account created and logged in'
-    //     })(req, res)
-    //   }
-    // })
-
-  },
-  getLogin: function (req, res) {
-    res.render('./auth/login')
   },
   getPreference: function (req, res) {
+    console.log('setting preference', req.user)
     // console.log(req.user.name, res.locals)
     User.findById(req.user._id, function (err, user) {
       if (err) console.error(err)
@@ -112,9 +101,28 @@ const mainController = {
     })
   },
   getLogout: function (req, res) {
+    // ---IF NOT PRIVATE EVENT---
     req.logout()
     req.flash('success', 'You have logged out')
-    res.redirect('/')
+    res.redirect('/login')
+  },
+  postSignup: function (req, res) {
+    let user = new User({
+      email: req.body.email,
+      name: req.body.name,
+      password: req.body.password
+    })
+    user.save(function (err, createdUser) {
+      if (err) {
+        req.flash('error', 'Unable to create user account')
+        res.redirect('/signup')
+      } else {
+        passport.authenticate('local', {
+          successRedirect: '/preference',
+          successFlash: 'Account created and logged in'
+        })(req, res)
+      }
+    })
   }
 }
 
