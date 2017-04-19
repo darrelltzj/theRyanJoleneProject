@@ -17,9 +17,6 @@
       <input type="number" class="form-control" value="<%= user.checkedin%>" name="checkedin" min=0 max=<%= user.headCountAllowed%>>
     </div>
 
-    <input type="hidden" name="prevCheckedIn" value=<%= user.checkedin%>>
-    <input type="hidden" name="guestTableId" value=<%= user.table._id %>>
-
     <% include ../partials/alerts %>
 
     <button type="submit" class="btn btn-primary" name="action" value="update">Update</button>
