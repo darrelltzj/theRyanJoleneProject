@@ -94,11 +94,11 @@
   </form>
 
   <form action=<%="/admin/guest/" + user._id + "?_method=DELETE"%> method="POST">
-  <%if (!user.permanent) { %>
-    <button type="submit" class="btn btn-primary btn-danger" name="action" value="remove">Disinvite</button>
 
+  <%if (!user.permanent) { %>
+    <button type="submit" class="btn btn-primary btn-danger" id="remove-guest-btn" name="action" value="remove">Disinvite</button>
   <% } %>
 
-</form>
+  </form>
 
 </div>

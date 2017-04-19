@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-// const User = require('../models/user')
 
 var TableSchema = new mongoose.Schema({
   name: {
@@ -8,7 +7,8 @@ var TableSchema = new mongoose.Schema({
   },
   capacity: {
     type: Number,
-    default: 10
+    default: 10,
+    min: [1, 'Table capacity must be at least 1']
   },
   plannedFor: {
     type: Number,
@@ -27,13 +27,6 @@ var TableSchema = new mongoose.Schema({
     default: false
   }
 })
-
-// edit user
-// call method to update itself
-// TableSchema.methods.updateTableVal = function(prevTable, tableId, changedVal) {
-//   // find table id
-//   //
-// }
 
 var Table = mongoose.model('Table', TableSchema)
 

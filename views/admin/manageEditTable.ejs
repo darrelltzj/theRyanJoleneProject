@@ -24,7 +24,7 @@
 
   <form action=<%="/admin/table/" + table._id + "?_method=DELETE"%> method="POST">
     <% if (!table.permanent) { %>
-      <button type="submit" class="btn btn-primary btn-danger" name="action" value="remove">Remove</button>
+      <button type="submit" class="btn btn-primary btn-danger" id="remove-table-btn" name="action" value="remove">Remove</button>
       <% } %>
   </form>
 

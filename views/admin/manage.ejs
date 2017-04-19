@@ -33,7 +33,15 @@
                   <%= table.capacity%>
                 </td>
                 <td>
+
+                <% if (table.plannedFor > table.capacity) { %>
+                  <font color="red"><%= table.plannedFor%></font>
+                <% } else if (table.plannedFor === table.capacity) { %>
                   <%= table.plannedFor%>
+                <% } else { %>
+                  <font color="orange"><%= table.plannedFor%></font>
+                <% } %>
+
                 </td>
                 <td>
                   <%= table.reservedFor%>
@@ -100,7 +108,17 @@
 
               </td>
               <td>
-                <%= guest.attending%>
+              
+              <% if (!guest.haveInit) { %>
+                <font color="orange"><%= guest.attending%></font>
+              <% } else { %>
+                <% if (!guest.attending) { %>
+                  <font color="red"><%= guest.attending%></font>
+                <% } else { %>
+                  <font color="green"><%= guest.attending%></font>
+                <% } %>
+              <% } %>
+
               </td>
               <td>
               <% if (guest.table) { %>
