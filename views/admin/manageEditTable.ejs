@@ -1,6 +1,6 @@
 <div class="dimmer"></div>
 <div id="form-editTable">
-  <form action="" method="POST">
+  <form action=<%="/admin/table/" + table._id + "?_method=PUT"%> method="POST">
 
     <% if (!table.permanent) { %>
       <div class="form-group">
@@ -20,9 +20,13 @@
 
     <button type="submit" class="btn btn-primary" name="action" value="update">Update</button>
 
+  </form>
+
+  <form action=<%="/admin/table/" + table._id + "?_method=DELETE"%> method="POST">
     <% if (!table.permanent) { %>
       <button type="submit" class="btn btn-primary btn-danger" name="action" value="remove">Remove</button>
-    <% } %>
-
+      <% } %>
+      
   </form>
+
 </div>

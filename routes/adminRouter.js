@@ -12,8 +12,8 @@ router.route('/guest/add')
 
 router.route('/guest/:id')
 .get(adminController.getAdminEditGuest)
-.post(adminController.postAdminEditGuest)
-// .delete(adminController.deleteGuest)
+.put(adminController.editGuest)
+.delete(adminController.deleteGuest)
 
 router.route('/table/add')
 .get(adminController.getAdminAddTable)
@@ -21,14 +21,14 @@ router.route('/table/add')
 
 router.route('/table/:id')
 .get(adminController.getAdminEditTable)
-.post(adminController.postAdminEditTable)
-// .delete(adminController.deleteGuest)
+.put(adminController.postAdminEditTable)
+.delete(adminController.deleteTable)
 
 router.route('/checkin')
 .get(adminController.getAdminCheckIn)
 
 router.route('/checkin/:id')
 .get(adminController.getAdminCheckInGuest)
-.post(adminController.postAdminCheckInGuest)
+.put(adminController.putAdminCheckInGuest)
 
 module.exports = router

@@ -1,6 +1,7 @@
 <div class="dimmer"></div>
 <div id="form-updateGuest">
-  <form action="" method="POST">
+  <form action=<%="/admin/guest/" + user._id + "?_method=PUT"%> method="POST">
+
     <div class="form-group">
       <label for="name" class="update-label">Name</label>
       <input type="text" class="form-control" value="<%= user.name%>" name="name">
@@ -96,10 +97,20 @@
 
     <button type="submit" class="btn btn-primary" name="action" value="update">Update</button>
 
-    <%if (!user.permanent) { %>
-      <button type="submit" class="btn btn-primary btn-danger" name="action" value="remove">Disinvite</button>
-    <% } %>
-
   </form>
+
+  <form action=<%="/admin/guest/" + user._id + "?_method=DELETE"%> method="POST">
+  <%if (!user.permanent) { %>
+    <button type="submit" class="btn btn-primary btn-danger" name="action" value="remove">Disinvite</button>
+
+    <input type="hidden" name="id" value=<%= user.id%>>
+    <input type="hidden" name="prevTable" value=<%= user.table%>>
+    <input type="hidden" name="prevHeadCountAllowed" value=<%= user.headCountAllowed%>>
+    <input type="hidden" name="prevHeadCountSelected" value=<%= user.headCountSelected%>>
+    <input type="hidden" name="prevCheckedIn" value=<%= user.checkedin%>>
+    
+  <% } %>
+
+</form>
 
 </div>

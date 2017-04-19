@@ -20,11 +20,11 @@ router.route('/login')
 
 router.route('/changepassword')
 .get(isLoggedIn, mainController.getChangePass)
-.post(isLoggedIn, mainController.postChangePass)
+.put(isLoggedIn, mainController.postChangePass)
 
 router.route('/preference')
 .get(isLoggedIn, haveInit, mainController.getPreference)
-.post(isLoggedIn, haveInit, mainController.postPreference)
+.put(isLoggedIn, haveInit, mainController.putPreference)
 
 router.route('/logout')
 .get(isLoggedIn, mainController.getLogout)

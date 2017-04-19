@@ -53,7 +53,7 @@ const mainController = {
       })
     })
   },
-  postPreference: function (req, res) {
+  putPreference: function (req, res) {
     // console.log('body', req.body)
     // console.log('user', req.user)
     var totalHeadCount

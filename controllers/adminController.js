@@ -43,6 +43,7 @@ const adminManageController = {
   getAdminEditTable: function (req, res) {
     Table.findById(req.params.id, (err, table) => {
       if (err) console.error(err)
+      // console.log(table)
       res.render('./admin/manageEditTable', {
         table: table
       })
@@ -51,28 +52,31 @@ const adminManageController = {
   postAdminEditTable: function (req, res) {
     if (req.body.action === 'update') {
       Table.findOneAndUpdate({
-        _id: req.body.id
+        _id: req.params.id
       }, {
         name: req.body.name,
         capacity: req.body.capacity
       }, function (err, results) {
         if (err) console.error(err)
-        console.log(results)
         res.redirect('/admin')
       })
     }
-    else if (req.body.action === 'remove') {
+  },
+  deleteTable: function (req, res) {
+    if (req.body.action === 'remove') {
       async.parallel([
         function (callback) {
           User.update({
-            table: req.body.id
+            table: req.params.id
+            // table: req.body.id
           }, {
             table: null
           }, callback)
         },
         function (callback) {
           Table.findByIdAndRemove({
-            _id: req.body.id
+            _id: req.params.id
+            // _id: req.body.id
           }, callback)
         }
       ], function (err, results) {
@@ -82,9 +86,6 @@ const adminManageController = {
       })
     }
   },
-  // deleteTable: function (req, res) {
-  //
-  // },
   getAdminAddGuest: function (req, res) {
     async.parallel([
       function (callback) {
@@ -178,7 +179,7 @@ const adminManageController = {
       })
     })
   },
-  postAdminEditGuest: function (req, res) {
+  editGuest: function (req, res) {
     var totalHeadCount
     if (req.body.action === 'update') {
       if (req.body.attending == 'true') {
@@ -199,7 +200,7 @@ const adminManageController = {
             // update user with req.body
             // update new table
             User.findOneAndUpdate({
-              _id: req.body.id
+              _id: req.params.id
             }, {
               name: req.body.name,
               email: req.body.email,
@@ -247,17 +248,17 @@ const adminManageController = {
             req.flash('error', 'Error in input. Please Check.')
             res.redirect('/admin/guest/' + req.params.id)
           }
-          // console.log(results)
           res.redirect('/admin')
         })
       }
     }
-    else if (req.body.action === 'remove') {
-      // async
+  },
+  deleteGuest: function (req, res) {
+    if (req.body.action === 'remove') {
       async.parallel([
         function (callback) {
           User.findByIdAndRemove({
-            _id: req.body.id
+            _id: req.params.id
           }, callback)
         },
         function (callback) {
@@ -280,9 +281,6 @@ const adminManageController = {
       })
     }
   },
-  // deleteGuest: function (req, res) {
-  //
-  // },
   getAdminCheckIn: function (req, res) {
     User.find({}).populate('table').exec( function (err, usersArr) {
       if (err) console.error(err)
@@ -299,7 +297,7 @@ const adminManageController = {
       })
     })
   },
-  postAdminCheckInGuest: function (req, res) {
+  putAdminCheckInGuest: function (req, res) {
     async.parallel([
       function (callback) {
         User.findOneAndUpdate({
