@@ -82,20 +82,61 @@ const adminManageController = {
   },
   deleteTable: function (req, res) {
     var tableNotSetId
+    var usersAffected = []
+    var totalHeadCountAllowed = 0
+    var totalHeadCountSelected = 0
+    var totalCheckedIn = 0
+
     if (req.body.action === 'remove') {
       async.series([
         function (callback) {
           Table.findOne({name: 'NOT SET'}, function (err, data) {
-            tableNotSetId = data._id
+            if (err) {
+              console.error(err)
+            }
+            else {
+              tableNotSetId = data._id
+              callback()
+            }
+          })
+        },
+        function (callback) {
+          // find all users with table
+          User.find({
+            table: req.params.id
+          }, function (err, users) {
+            usersAffected = users
             callback()
           })
         },
         function (callback) {
+          usersAffected.forEach(function (user) {
+            totalHeadCountAllowed += user.headCountAllowed
+            totalHeadCountSelected += user.headCountSelected
+            totalCheckedIn += user.checkedin
+          })
+          callback()
+        },
+        function (callback) {
+          Table.findOneAndUpdate({
+            _id: tableNotSetId
+          },{
+            $inc: {
+              plannedFor: totalHeadCountAllowed,
+              reservedFor: totalHeadCountSelected,
+              checkedIn: totalCheckedIn
+            }
+          }, callback)
+        },
+        function (callback) {
+          //
           User.update({
             table: req.params.id
           }, {
             table: tableNotSetId
-          },callback)
+          }, {
+            multi: true
+          }, callback)
         },
         function (callback) {
           Table.findByIdAndRemove({
@@ -131,78 +172,84 @@ const adminManageController = {
   postAdminAddGuest: function (req, res) {
     var savedGuest
     var totalHeadCount
-
-    if (req.body.attending == 'true') {
-      totalHeadCount = parseInt(req.body.addGuest) + 1
-    }
-    else if (req.body.attending == 'false') {
-      if (req.body.addGuest > 0) {
-        req.flash('error', 'Additional Guests must be 0 if not attending.')
-        res.redirect('/admin/guest/add')
-      }
-      else if (req.body.addGuest < 0) {
-        req.flash('error', 'Additional Guests cannot be a negative number.')
-        res.redirect('/admin/guest/add')
-      }
-      else {
-        totalHeadCount = 0
-      }
-    }
-
-    if (!req.body.name || !req.body.email || req.body.headCountAllowed < totalHeadCount || req.body.checkedin > totalHeadCount) {
-      req.flash('error', 'Error in input. Please Check.')
-      res.redirect('/admin/guest/add')
-    }
-    else {
-      async.series([
-        function (callback) {
-          let newGuest = new User({
-            name: req.body.name,
-            email: req.body.email,
-            admin: req.body.admin,
-            attending: req.body.attending,
-            table: req.body.table,
-            foodPref: req.body.foodPref,
-            headCountAllowed: req.body.headCountAllowed,
-            headCountSelected: totalHeadCount,
-            checkedin: req.body.checkedin,
-            password: passphrase
-          })
-          newGuest.save(function (err, theGuest) {
-            if (err || !theGuest) {
-              req.flash('error', 'Error in input. User may already exist. Please Check.')
-              res.redirect('/admin/guest/add')
-            }
-            else {
-              savedGuest = theGuest
-              callback()
-            }
-          })
-        },
-        function (callback) {
-          if (savedGuest) {
-            Table.findOneAndUpdate({
-              _id: req.body.table
-            }, {
-              $inc: {
-                plannedFor: savedGuest.headCountAllowed,
-                reservedFor: savedGuest.headCountSelected
-              }
-            }, callback)
-          }
-          else {
-            req.flash('error', 'Error. Unable to update table')
+    async.series([
+      function (callback) {
+        if (req.body.attending == 'true') {
+          totalHeadCount = parseInt(req.body.addGuest) + 1
+          callback()
+        }
+        else if (req.body.attending == 'false') {
+          if (req.body.addGuest > 0) {
+            req.flash('error', 'Additional Guests must be 0 if not attending.')
             res.redirect('/admin/guest/add')
           }
+          else if (req.body.addGuest < 0) {
+            req.flash('error', 'Additional Guests cannot be a negative number.')
+            res.redirect('/admin/guest/add')
+          }
+          else {
+            totalHeadCount = 0
+            callback()
+          }
         }
-      ], function (err, results) {
-        if (err || !results) {
+      },
+      function (callback) {
+        if (!req.body.name || !req.body.email || req.body.headCountAllowed < totalHeadCount || req.body.checkedin > totalHeadCount) {
           req.flash('error', 'Error in input. Please Check.')
-          res.render('/admin/guest/add')
+          res.redirect('/admin/guest/add')
         }
-        res.redirect('/admin')
-      })
-    }
+        else {
+          callback()
+        }
+      },
+      function (callback) {
+        let newGuest = new User({
+          name: req.body.name,
+          email: req.body.email,
+          admin: req.body.admin,
+          attending: req.body.attending,
+          table: req.body.table,
+          foodPref: req.body.foodPref,
+          headCountAllowed: req.body.headCountAllowed,
+          headCountSelected: totalHeadCount,
+          checkedin: req.body.checkedin,
+          password: passphrase
+        })
+        newGuest.save(function (err, theGuest) {
+          if (err || !theGuest) {
+            req.flash('error', 'Error in input. User may already exist. Please Check.')
+            res.redirect('/admin/guest/add')
+          }
+          else {
+            savedGuest = theGuest
+            callback()
+          }
+        })
+      },
+      function (callback) {
+        if (savedGuest) {
+          Table.findOneAndUpdate({
+            _id: req.body.table
+          }, {
+            $inc: {
+              plannedFor: savedGuest.headCountAllowed,
+              reservedFor: savedGuest.headCountSelected,
+              checkedIn: savedGuest.checkedin
+            }
+          }, callback)
+        }
+        else {
+          req.flash('error', 'Error. Unable to update table')
+          res.redirect('/admin/guest/add')
+        }
+      }
+    ], function (err, results) {
+      if (err || !results) {
+        req.flash('error', 'Error in input. Please Check.')
+        res.render('/admin/guest/add')
+      }
+      res.redirect('/admin')
+    })
   },
   getAdminEditGuest: function (req, res) {
     async.parallel([
@@ -228,6 +275,11 @@ const adminManageController = {
   },
   editGuest: function (req, res) {
     var totalHeadCount
+    var prevTableId
+    var prevHeadCountAllowed
+    var prevHeadCountSelected
+    var prevCheckedIn
+
     if (req.body.action === 'update') {
       async.series([
         function (callback) {
@@ -237,12 +289,10 @@ const adminManageController = {
           }
           else if (req.body.attending == 'false') {
             if (req.body.addGuest > 0) {
-              // not redirecting
               req.flash('error', 'Additional Guests must be 0 if not attending.')
               res.redirect('/admin/guest/' + req.params.id)
             }
             else if (req.body.addGuest < 0) {
-              // not redirecting
               req.flash('error', 'Additional Guests cannot be a negative number.')
               res.redirect('/admin/guest/' + req.params.id)
             }
@@ -262,11 +312,42 @@ const adminManageController = {
           }
         },
         function (callback) {
-          // user find one
-          // find original table
-          // update table - old values of user
-          // update user with req.body
-          // update new table
+          User.findOne({_id: req.params.id}, function (err, user) {
+            if (err) {
+              console.error(err)
+              req.flash('error', 'Error. Cannot find user')
+              res.redirect('/admin/guest/' + req.params.id)
+            }
+            else {
+              prevTableId = user.table
+              prevHeadCountAllowed = user.headCountAllowed
+              prevHeadCountSelected = user.headCountSelected
+              prevCheckedIn = user.checkedin
+              callback()
+            }
+          })
+        },
+        function (callback) {
+          Table.findOneAndUpdate({
+            _id: prevTableId
+          }, {
+            $inc: {
+              plannedFor: -prevHeadCountAllowed,
+              reservedFor: -prevHeadCountSelected,
+              checkedIn: -prevCheckedIn
+            }
+          }, function (err, table) {
+            if (err) {
+              console.error(err)
+              req.flash('error', 'Fatal Error. Previous Table does not exist.')
+              res.redirect('/admin/guest/' + req.params.id)
+            }
+            else {
+              callback()
+            }
+          })
+        },
+        function (callback) {
           User.findOneAndUpdate({
             _id: req.params.id
           }, {
@@ -291,17 +372,6 @@ const adminManageController = {
         },
         function (callback) {
           Table.findOneAndUpdate({
-            _id: req.body.prevTable
-          }, {
-            $inc: {
-              plannedFor: -req.body.prevHeadCountAllowed,
-              reservedFor: -req.body.prevHeadCountSelected,
-              checkedIn: -req.body.prevCheckedIn
-            }
-          }, callback)
-        },
-        function (callback) {
-          Table.findOneAndUpdate({
             _id: req.body.table
           }, {
             $inc: {
@@ -317,26 +387,47 @@ const adminManageController = {
           res.redirect('/admin/guest/' + req.params.id)
         }
         res.redirect('/admin')
-      })        
+      })
     }
   },
   deleteGuest: function (req, res) {
+    var prevTableId
+    var prevHeadCountAllowed
+    var prevHeadCountSelected
+    var prevCheckedIn
+
     if (req.body.action === 'remove') {
-      async.parallel([
+      async.series([
         function (callback) {
-          User.findByIdAndRemove({
-            _id: req.params.id
-          }, callback)
+          User.findOne({_id: req.params.id}, function (err, user) {
+            if (err) {
+              console.error(err)
+              req.flash('error', 'Error. Cannot find user')
+              res.redirect('/admin/guest/' + req.params.id)
+            }
+            else {
+              prevTableId = user.table
+              prevHeadCountAllowed = user.headCountAllowed
+              prevHeadCountSelected = user.headCountSelected
+              prevCheckedIn = user.checkedin
+              callback()
+            }
+          })
         },
         function (callback) {
           Table.findOneAndUpdate({
-            _id: req.body.prevTable
+            _id: prevTableId
           }, {
             $inc: {
-              plannedFor: -req.body.prevHeadCountAllowed,
-              reservedFor: -req.body.prevHeadCountSelected,
-              checkedIn: -req.body.prevCheckedIn
+              plannedFor: -prevHeadCountAllowed,
+              reservedFor: -prevHeadCountSelected,
+              checkedIn: -prevCheckedIn
             }
+          }, callback)
+        },
+        function (callback) {
+          User.findByIdAndRemove({
+            _id: req.params.id
           }, callback)
         }
       ], function (err, results) {
@@ -350,7 +441,11 @@ const adminManageController = {
   },
   getAdminCheckIn: function (req, res) {
     User.find({}).populate('table').exec( function (err, usersArr) {
-      if (err) console.error(err)
+      if (err) {
+        console.error(err)
+        // req.flash('error', 'Error in removing')
+        // res.redirect('/admin/guest/' + req.params.id)
+      }
       res.render('./admin/checkin', {
         usersArr: usersArr
       })

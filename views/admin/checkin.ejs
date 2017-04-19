@@ -4,6 +4,7 @@
       Guest List
     </div>
     <div class="panel-body">
+      <% include ../partials/alerts %>
       <input type="text" class="form-control" id="nameSearch" placeholder="Name">
       <ul class="list-group" id="guestList">
         <% usersArr.forEach(function (user) { %>
