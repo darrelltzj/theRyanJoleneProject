@@ -1,7 +1,6 @@
-// const express = require('express')
 const Table = require('../models/table')
 const User = require('../models/user')
-// const passport = require('../config/passport')
+const passport = require('../config/passport')
 const async = require('async')
 
 const mainController = {
@@ -12,6 +11,12 @@ const mainController = {
   getLogin: function (req, res) {
     res.render('./auth/login')
   },
+  postLogin: passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: 'Invalid username and/or password',
+    successFlash: 'You have logged in'
+  }),
   getChangePass: function (req, res) {
     res.render('./auth/changePass', {
       flash: req.flash('error')
@@ -54,7 +59,6 @@ const mainController = {
     })
   },
   putPreference: function (req, res) {
-    // console.log('body', req.body)
     // console.log('user', req.user)
     var totalHeadCount
     var headCountDiff
@@ -101,7 +105,6 @@ const mainController = {
       }
     ], function (err, results) {
       if (err) console.error(err)
-      // console.log('theUser', results)
       // console.log(res.locals.currentUser)
       res.redirect('/')
     })
