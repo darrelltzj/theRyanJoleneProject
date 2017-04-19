@@ -27,7 +27,7 @@ const mainController = {
         user.password = req.body.newPassword
         user.save(function (err) {
           if (err) {
-            req.flash('error', 'Unable to change password. Password must be more than 6 characters.')
+            req.flash('error', 'Unable to change password. Password must be 6 characters or more')
             res.redirect('/changepassword')
           }
           else {

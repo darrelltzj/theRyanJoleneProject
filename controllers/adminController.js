@@ -464,7 +464,25 @@ const adminManageController = {
     })
   },
   putAdminCheckInGuest: function (req, res) {
-    async.parallel([
+    var prevCheckedIn
+    var tableId
+    async.series([
+      function (callback) {
+        User.findOne({
+          _id: req.params.id
+        }, function (err, user) {
+          if (err) {
+            console.error(err)
+            req.flash('error', 'Error. Unable to find user.')
+            res.redirect('/admin/checkin')
+          }
+          else {
+            prevCheckedIn = user.checkedin
+            tableId = user.table
+            callback()
+          }
+        })
+      },
       function (callback) {
         User.findOneAndUpdate({
           _id: req.params.id
@@ -474,10 +492,10 @@ const adminManageController = {
       },
       function (callback) {
         Table.findOneAndUpdate({
-          _id: req.body.guestTableId
+          _id: tableId
         }, {
           $inc: {
-            checkedIn: req.body.checkedin - req.body.prevCheckedIn
+            checkedIn: req.body.checkedin - prevCheckedIn
           }
         }, callback)
       }

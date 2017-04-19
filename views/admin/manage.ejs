@@ -1,16 +1,9 @@
 <div class="admin-dimmer"></div>
 <div id="admin-settings">
-  <div class="panel panel-default" id="event-settings">
-    <div class="panel-heading">
-      Event Settings
-    </div>
-    <div class="panel-body">
-    </div>
-  </div>
 
   <div class="panel panel-default" id="table-settings">
     <div class="panel-heading">
-      Table Settings
+      <b>Tables</b>
     </div>
     <div class="panel-body">
       <table class="table">
@@ -64,7 +57,7 @@
 
   <div class="panel panel-default" id="guest-settings">
     <div class="panel-heading">
-      Guest Settings
+      <b>Guests</b>
     </div>
     <div class="panel-body">
       <table class="table">
@@ -98,7 +91,13 @@
                 <%= guest.email%>
               </td>
               <td>
+
+              <% if (guest.admin) { %>
+                <u><b><%= guest.admin%></b></u>
+              <% } else { %>
                 <%= guest.admin%>
+              <% } %>
+
               </td>
               <td>
                 <%= guest.attending%>
