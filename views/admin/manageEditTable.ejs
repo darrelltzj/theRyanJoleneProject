@@ -7,6 +7,8 @@
         <label for="name" class="update-label">Table Name</label>
         <input type="text" class="form-control" placeholder="Table Name" value="<%= table.name%>" name="name">
       </div>
+    <% } else { %>
+      <input type="hidden" value="<%= table.name%>" name="name">
     <% } %>
 
     <div class="form-group">
@@ -26,7 +28,6 @@
     <% if (!table.permanent) { %>
       <button type="submit" class="btn btn-primary btn-danger" name="action" value="remove">Remove</button>
       <% } %>
-      
   </form>
 
 </div>

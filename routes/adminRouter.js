@@ -21,7 +21,7 @@ router.route('/table/add')
 
 router.route('/table/:id')
 .get(adminController.getAdminEditTable)
-.put(adminController.postAdminEditTable)
+.put(adminController.editTable)
 .delete(adminController.deleteTable)
 
 router.route('/checkin')
