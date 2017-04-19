@@ -24,16 +24,24 @@
     <% if (user.headCountAllowed > 1) { %>
       <div class="form-group">
         <label for="addGuest" class="update-label">Additional Guests</label>
-        <input type="number" class="form-control" id="addGuest" placeholder=<%= user.headCountSelected - 1 %> name="addGuest" value=<%= user.headCountSelected - 1 %> max=<%= user.headCountAllowed - 1 %> min=0>
+        <input type="number" class="form-control" id="addGuest" name="addGuest"
+
+        <% if (!user.attending) { %>
+          placeholder=0
+          value=0
+        <% } else { %>
+          placeholder=<%= user.headCountSelected - 1 %>
+          value=<%= user.headCountSelected - 1 %>
+        <% } %>
+
+        max=<%= user.headCountAllowed - 1 %> min=0>
       </div>
-    <% } else { %>
-      <input type="hidden" class="form-control" id="addGuest" placeholder="" name="addGuest" value=0>
     <% } %>
 
     <a href="/changepassword" style="color:white">Change Password</a>
     <br><br>
 
-    <input type="hidden" name="prevHeadCountSelected" value=<%= user.headCountSelected%>>
+    <% include ../partials/alerts %>
 
     <button type="submit" class="btn btn-primary" id="preference-submit">Update</button>
   </form>

@@ -14,7 +14,9 @@
     <input type="hidden" name="prevCheckedIn" value=<%= user.checkedin%>>
     <input type="hidden" name="guestTableId" value=<%= user.table._id %>>
 
+    <% include ../partials/alerts %>
+
     <button type="submit" class="btn btn-primary" name="action" value="update">Update</button>
-    
+
   </form>
 </div>

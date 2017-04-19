@@ -17,7 +17,7 @@ const mainController = {
       flash: req.flash('error')
     })
   },
-  postChangePass: function (req, res) {
+  putChangePass: function (req, res) {
     User.findOne({email: req.user.email}, function (err, user) {
       if (req.body.newPassword !== req.body.passConfirmation) {
         req.flash('error', 'Passwords do not match.')
@@ -62,12 +62,23 @@ const mainController = {
       function (callback) {
         if (req.body.attending == 'true') {
           totalHeadCount = parseInt(req.body.addGuest) + 1
-          headCountDiff = totalHeadCount - req.body.prevHeadCountSelected
+          headCountDiff = totalHeadCount - req.user.headCountSelected
           callback()
-        } else if (req.body.attending == 'false') {
-          totalHeadCount = 0
-          headCountDiff = totalHeadCount - req.body.prevHeadCountSelected
-          callback()
+        }
+        else if (req.body.attending == 'false') {
+          if (req.body.addGuest > 0) {
+            req.flash('error', 'Additional Guests must be 0 if not attending.')
+            res.redirect('/preference')
+          }
+          else if (req.body.addGuest < 0) {
+            req.flash('error', 'Additional Guests cannot be a negative number.')
+            res.redirect('/preference')
+          }
+          else {
+            totalHeadCount = 0
+            headCountDiff = totalHeadCount - req.user.headCountSelected
+            callback()
+          }
         }
       },
       function (callback) {

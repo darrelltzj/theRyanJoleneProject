@@ -28,6 +28,13 @@ var TableSchema = new mongoose.Schema({
   }
 })
 
+// edit user
+// call method to update itself
+// TableSchema.methods.updateTableVal = function(prevTable, tableId, changedVal) {
+//   // find table id
+//   //
+// }
+
 var Table = mongoose.model('Table', TableSchema)
 
 module.exports = Table
