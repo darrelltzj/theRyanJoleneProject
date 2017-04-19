@@ -443,8 +443,8 @@ const adminManageController = {
     User.find({}).populate('table').exec( function (err, usersArr) {
       if (err) {
         console.error(err)
-        // req.flash('error', 'Error in removing')
-        // res.redirect('/admin/guest/' + req.params.id)
+        req.flash('error', 'Fatal Error. Unable to find users.')
+        res.redirect('/admin/checkin')
       }
       res.render('./admin/checkin', {
         usersArr: usersArr
@@ -453,7 +453,11 @@ const adminManageController = {
   },
   getAdminCheckInGuest: function (req, res) {
     User.findById(req.params.id).populate('table').exec( function (err, user) {
-      if (err) console.error(err)
+      if (err) {
+        console.error(err)
+        req.flash('error', 'Fatal Error. Unable to find user.')
+        res.redirect('/admin/checkin')
+      }
       res.render('./admin/checkinGuest', {
         user: user
       })
@@ -478,7 +482,11 @@ const adminManageController = {
         }, callback)
       }
     ], function (err, results) {
-      if (err) console.error(err)
+      if (err) {
+        console.error(err)
+        req.flash('error', 'Error Checking In Guest')
+        res.redirect('/admin/checkin' + params.id)
+      }
       res.redirect('/admin/checkin')
     })
   }
