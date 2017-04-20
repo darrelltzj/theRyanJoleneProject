@@ -7,6 +7,8 @@ http://stackoverflow.com/questions/1349404/generate-random-string-characters-in-
 
 https://pixabay.com/p-2162950/?no_redirect
 
+http://stackoverflow.com/questions/22246626/show-hide-children-on-parent-click
+
 Drafts
 $('#signup').on('click', function () {
   var dimmer = $("<div></div>").width(window.innerWidth + 'px').height(window.innerHeight + 'px').addClass('dimmer')

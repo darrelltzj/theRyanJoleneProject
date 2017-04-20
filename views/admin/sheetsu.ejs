@@ -1,0 +1,144 @@
+<div class="admin-dimmer"></div>
+<div id="admin-settings">
+
+<div class="panel panel-default" id="guest-settings">
+    <div class="panel-heading">
+      <b>Google Sheet Data</b>
+    </div>
+    <div class="panel-body">
+      <table class="table">
+        <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Admin</th>
+                  <th>Attending</th>
+                  <th>Table</th>
+                  <th>Food Preference</th>
+                  <th>Planned for</th>
+                  <th>Requested for</th>
+                  <th>Checked In</th>
+                  <th>
+                    <form action="/admin/guest/add">
+                    <button class="btn btn-xs btn-success" id="addGuest">
+                    Update to All
+                    </button>
+                  </form>
+                </th>
+              </tr>
+          </thead>
+          <tbody>
+            <% sheetsuArr.forEach(function (guest) { %>
+              <tr>
+              <td>
+                <%= guest.name%>
+              </td>
+              <td>
+                <%= guest.email%>
+              </td>
+              <td>
+                <%= guest.admin%>
+              </td>
+              <td>
+                <%= guest.attending%>
+              </td>
+              <td>
+                <%= guest.table%>
+              </td>
+              <td>
+                <%= guest.foodPref%>
+              </td>
+              <td>
+                <%= guest.headCountAllowed%>
+              </td>
+              <td>
+                <%= guest.headCountSelected%>
+              </td>
+              <td>
+                <%= guest.checkedin%>
+              </td>
+              <td>
+              <form action="/admin/guest/<%= guest._id %>">
+              <button class="btn btn-xs">
+                Update to This
+              </button>
+              </form>
+              </td>
+              </tr>
+            <% }) %>
+          </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel panel-default" id="guest-settings">
+      <div class="panel-heading">
+        <b>Active Data</b>
+      </div>
+      <div class="panel-body">
+        <table class="table">
+          <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Admin</th>
+                    <th>Attending</th>
+                    <th>Table</th>
+                    <th>Food Preference</th>
+                    <th>Planned for</th>
+                    <th>Requested for</th>
+                    <th>Checked In</th>
+                    <th>
+                      <form action="/admin/guest/add">
+                      <button class="btn btn-xs btn-success" id="addGuest">
+                      Update to All
+                      </button>
+                    </form>
+                  </th>
+                </tr>
+            </thead>
+            <tbody>
+              <% usersArr.forEach(function (guest) { %>
+                <tr>
+                <td>
+                  <%= guest.name%>
+                </td>
+                <td>
+                  <%= guest.email%>
+                </td>
+                <td>
+                  <%= guest.admin%>
+                </td>
+                <td>
+                  <%= guest.attending%>
+                </td>
+                <td>
+                  <%= guest.table.name%>
+                </td>
+                <td>
+                  <%= guest.foodPref%>
+                </td>
+                <td>
+                  <%= guest.headCountAllowed%>
+                </td>
+                <td>
+                  <%= guest.headCountSelected%>
+                </td>
+                <td>
+                  <%= guest.checkedin%>
+                </td>
+                <td>
+                <form action="/admin/guest/<%= guest._id %>">
+                <button class="btn btn-xs">
+                  Update to This
+                </button>
+                </form>
+                </td>
+                </tr>
+              <% }) %>
+            </tbody>
+        </table>
+      </div>
+    </div>
+
+</div>

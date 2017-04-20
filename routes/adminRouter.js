@@ -30,4 +30,8 @@ router.route('/checkin/:id')
 .get(adminController.getAdminCheckInGuest)
 .put(adminController.putAdminCheckInGuest)
 
+// Sheetsu attempt
+router.route('/sheetsu')
+.get(adminController.getSheetsu)
+
 module.exports = router

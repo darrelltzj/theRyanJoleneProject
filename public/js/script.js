@@ -21,11 +21,14 @@ $(document).ready(function () {
 
   listFilter ($('#nameSearch'), $('#guestList'))
 
-  // $('.addGuest').change(function () {
-  //   $("#inputAddGuest").empty()
-  //   for (var i = 0; i < this.value; i++) {
-  //     var j = i + 1
-  //     $('#inputAddGuest').append('<input id="addGuestName' + j + '" class="form-control" type="text" name="addGuestName' + j + '" placeholder="Guest Name ' + j + '"><br>')
-  //   }
+  $('.panel-heading').click(function (e) {
+    e.stopPropagation()
+    jQuery(this).parent().children('.panel-body').toggle()
+})
+
+  // Sheetsu attempt
+  // $.get('https://sheetsu.com/apis/v1.0/22d5da24f31b', function(data) {
+  //   console.log(data)
   // })
+
 })
