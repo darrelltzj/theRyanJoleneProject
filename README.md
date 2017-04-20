@@ -367,7 +367,7 @@ listFilter ($('#nameSearch'), $('#guestList'))
 
 [**Sheetsu**](https://sheetsu.com)
 
-Currently, users have to manually key in their guests one at a time. With [Sheetsu](https://sheetsu.com), they can upload / sync their guest list from google spreadsheets. Still working on [this](https://docs.google.com/spreadsheets/d/1LzxY4hgAX3bS5FdHbrJUuXiDEHazgNolckqX6ZVmPRI/edit#gid=0). Here is the
+Currently, users have to manually key in their guests one at a time. With [Sheetsu](https://sheetsu.com), they can upload / sync their guest list from google spreadsheets. Still working on [this](https://ryanjolene.herokuapp.com/admin/sheetsu). Here is the
 [spreadsheet example](https://docs.google.com/spreadsheets/d/1LzxY4hgAX3bS5FdHbrJUuXiDEHazgNolckqX6ZVmPRI/edit#gid=0).
 
 **Email / SMS Notifications**
