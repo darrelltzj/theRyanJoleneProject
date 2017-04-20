@@ -146,6 +146,8 @@ router.route('/checkin/:id')
 
 ![ERM](http://i.imgur.com/DP3xEAZ.jpg)
 
+Table was referenced in each User
+
 ### User Schema
 ```
 var UserSchema = new mongoose.Schema({
@@ -213,7 +215,7 @@ var UserSchema = new mongoose.Schema({
 ```
 **Notes**
 
-**headCountAllowed**: Quantity of guest(s) allocated to this user
+**headCountAllowed**: Quantity of guest(s) allocated to this user (includes additional guests)
 
 **headCountSelected**: Quantity of guest(s) this user has selected
 
@@ -257,58 +259,139 @@ var TableSchema = new mongoose.Schema({
 ```
 **Notes**
 
-**plannedFor**: Quantity of guest(s) allocated to this table
+**plannedFor**: Quantity of guest(s) allocated to this table (includes additional guests)
 
-**reservedFor**: Quantity of guest(s) this user has selected
+**reservedFor**: Quantity of guest(s) who replied that belong to this table
 
-**checkedIn**: Quantity of guest(s) this user has checked in
+**checkedIn**: Quantity of guest(s) that belong to this table who have checked in
 
-**permanent**: true if this is the default user / owner
-
+**permanent**: true if this is the default table
 
 ### Create, Read, Update & Delete (CRUD) Process
+Below are the user actions that involved both Schemas.
 
-Async Series
-
-#### Adding Tables
-
-#### Edit Table
+[**Async Series**](https://caolan.github.io/async/docs.html) was used to call functions in order.
 
 #### Add Guest
+***Steps***
+
+1) Conduct Checks on form for errors
+
+2) Save New User
+
+3) Find selected table ID and increase 'plannedFor', 'reservedFor' & 'checkedIn' values from new guest
 
 #### Edit Guest
+***Steps***
 
+1) Conduct Checks on form for errors
 
-### Other Features
+2) Find user's previous table ID, 'headCountAllowed', 'headCountSelected' & 'checkedin'
 
-#### Guest Log In Process
+3) Find previous table with ID, decrease 'plannedFor', 'reservedFor' and 'checkedIn' values accordingly
+
+4) Update user's new details
+
+5) Find user's new table ID and increase 'plannedFor', 'reservedFor' and 'checkedIn' values accordingly
+
+#### Delete Guest
+***Steps***
+
+1) Find user's previous table ID, 'headCountAllowed', 'headCountSelected' & 'checkedin'
+
+2) Find previous table with ID, decrease 'plannedFor', 'reservedFor' and 'checkedIn' values accordingly
+
+3) Remove User
+
+#### Delete Table
+***Steps***
+
+1) Find default table ID
+
+2) Find array of affected users
+
+3) Find total 'headCountAllowed', 'headCountSelected' & 'checkedin' from array of users
+
+4) Find user's default table ID and increase 'plannedFor', 'reservedFor' and 'checkedIn' values accordingly
+
+5) Change all affected users' table ID to default table's
+
+6) Remove selected table
+
+### Others
+
+#### Guest Initial Log In Process
+
+![haveInit](http://i.imgur.com/dNGuEoq.jpg)
 
 #### Search Filter
 
+[Reference](https://kilianvalkhof.com/2010/javascript/how-to-build-a-fast-simple-list-filter-with-jquery/)
+
+```
+jQuery.expr[':'].Contains = function(a,i,m){
+  return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase())>=0
+}
+
+function listFilter (searchBar, list) {
+  $(searchBar).change( function () {
+    var filter = $(this).val()
+    if (filter) {
+      $(list).find("a:not(:Contains(" + filter + "))").parent().slideUp()
+      $(list).find("a:Contains(" + filter + ")").parent().slideDown()
+    }
+    else {
+      $(list).find("li").slideDown()
+    }
+  }).keyup( function () {
+    $(this).change()
+  })
+}
+
+listFilter ($('#nameSearch'), $('#guestList'))
+
+```
+**Steps**
+
+1) Start when there is a change on the search bar (key up)
+
+2) Slide up the names that do not contain what was typed in the search bar
+
+3) Slide down if nothing was typed or if the name contains what was typed into the search bar
+
+4) Compare both in CAPS because .contains is case sensitive. Have to create a new expression .Contains that compares all in CAPS
 
 ## Future Development
-The Work on [theRyanJoleneProject](https://ryanjolene.herokuapp.com) is not complete yet.
+[theRyanJoleneProject](https://ryanjolene.herokuapp.com) is not a complete solution yet.
 
-### Areas to improve on
-[Sheetsu](https://sheetsu.com)
-[Work In Progress](https://docs.google.com/spreadsheets/d/1LzxY4hgAX3bS5FdHbrJUuXiDEHazgNolckqX6ZVmPRI/edit#gid=0)
-[Example](https://docs.google.com/spreadsheets/d/1LzxY4hgAX3bS5FdHbrJUuXiDEHazgNolckqX6ZVmPRI/edit#gid=0)
+### Possible future features / ideas
 
-Event Schema
-Changeable location, time, date
+[**Sheetsu**](https://sheetsu.com)
 
-Email
-Automate Invite
-Reset Password
+Currently, users have to manually key in their guests one at a time. With [Sheetsu](https://sheetsu.com), they can upload / sync their guest list from google spreadsheets. Still working on [this](https://docs.google.com/spreadsheets/d/1LzxY4hgAX3bS5FdHbrJUuXiDEHazgNolckqX6ZVmPRI/edit#gid=0). Here is the
+[spreadsheet example](https://docs.google.com/spreadsheets/d/1LzxY4hgAX3bS5FdHbrJUuXiDEHazgNolckqX6ZVmPRI/edit#gid=0).
 
-Facebook Login
+**Email / SMS Notifications**
 
+* Automate Invite
+* Allow users to reset password
 
-Instragram API
-Socket IO for well wishes
+**Event Schema**
+
+Allow hosts to change location, time, date, picture
+
+**Facebook Login**
+
+Simplify the log in process
+
+**Entertainment features for the event**
+
+* Instragram API to view wedding couple's photos
+
+* Socket IO for live well wishes
 
 ### Bugs
-Limit Food preferences
+* Users can currently type an unlimited length of text for their food preferences - have to limit that.
 
 ## Author(s)
 
@@ -316,11 +399,18 @@ Limit Food preferences
 
 ## References
 
-https://www.beourguest.co/
-http://jsfiddle.net/loktar/rxGmk/
-https://kilianvalkhof.com/2010/javascript/how-to-build-a-fast-simple-list-filter-with-jquery/
-http://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
-https://pixabay.com/p-2162950/?no_redirect
-http://stackoverflow.com/questions/22246626/show-hide-children-on-parent-click
+* https://www.beourguest.co/ <-- Idea & Design inspiration. These guys are awesome. Would be great to collaborate with them one day.
+
+* https://kilianvalkhof.com/2010/javascript/how-to-build-a-fast-simple-list-filter-with-jquery/
+
+* http://stackoverflow.com/questions/22246626/show-hide-children-on-parent-click
+
+* http://jsfiddle.net/loktar/rxGmk/
 
 ## Credits
+
+**Placeholder Picture**
+* https://pixabay.com/p-2162950/?no_redirect
+
+**Favicon**
+* wedding by Gan Khoon Lay from the Noun Project
