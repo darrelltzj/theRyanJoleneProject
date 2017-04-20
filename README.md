@@ -34,10 +34,11 @@ To tackle the problem, the application should have the following features:
 
 ![Guest Flow](http://i.imgur.com/7vHZN7q.jpg)
 
-
-
 GIF
 
+Wireframes
+
+[Try it out](https://ryanjolene.herokuapp.com)
 
 ## About the Application
 
