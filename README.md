@@ -2,39 +2,29 @@
 [**theRyanJoleneProject**](https://ryanjolene.herokuapp.com) is a wedding guest registration web application for my friends, Ryan and Jolene. It is also my [second project assignment](https://jeremiahalex.gitbooks.io/wdi-sg/content/11-projects/project-2/readme.html) at General Assembly's Web Development Immersive (WDI) Course.
 
 ## User story
+As the hosts of the wedding event, my friends would like to track their guests' RSVPs so that they can make informed arrangements for their wedding ceremony.
 
-Role: Event Host
+### The problem
+Most couples use a survey form which usually results in the situation below:
 
-Goal: Simplify guest registration for wedding, entertain guests
+![The Problem](http://i.imgur.com/ZTOZnm0.jpg)
 
-Motivation: Less hassle, want guests to have a good time at wedding. Reduce paper (paperless check in)
+There is also the hassle to print guests list to check guests off at the ceremony.
 
-### Problem
+### Targeted features
+To tackle the problem, the application should have the following features:
 
-#### Host
+* Indication of which guests have replied, are coming and have checked in.
 
-![Host Before](http://i.imgur.com/HuUq8yR.jpg)
+* Indication on which tables can still be filled.
 
-#### Guest
+* Information of guests' latest preferences.
 
-![Guest Before](http://i.imgur.com/HBX9SZA.jpg)
+* Ability to overwrite guests' preferences if necessary.
 
+* As this is a private event. Signup should be limited to those on the guest list.
 
-## Features
-
-GIF
-
-*Know which tables can be filled.
-
-*Know which guests have replied, are coming and have checked in.
-
-*Set guests' preferences if necessary.
-
-*Be informed of your guests' latest preferences.
-
-*Save paper #saveTheEnvironment
-
-### User Flow Process
+### Using the Application
 
 #### Host
 
@@ -44,19 +34,52 @@ GIF
 
 ![Guest Flow](http://i.imgur.com/7vHZN7q.jpg)
 
-### Search Filter
 
 
-## Development Process
+GIF
 
 
-## Entity Relationship Diagram (ERD)
+## About the Application
 
-![ERM](http://i.imgur.com/DP3xEAZ.jpg)
+### Built With
 
-## Wireframes
+* "async": "^2.3.0"
 
-drawing
+* "bcrypt": "^1.0.2"
+
+* "body-parser": "^1.17.1"
+
+* "connect-flash": "^0.1.1"
+
+* "connect-mongo": "^1.3.2"
+
+* "dotenv": "^4.0.0"
+
+* "ejs": "^2.5.6"
+
+* "express": "^4.15.2"
+
+* "express-ejs-layouts": "^2.3.0"
+
+* "express-session": "^1.15.2"
+
+* "flash": "^1.1.0"
+
+* "method-override": "^2.3.8"
+
+* "mongoose": "^4.9.4"
+
+* "nodemon": "^1.11.0"
+
+* "passport": "^0.3.2"
+
+* "passport-local": "^1.0.0"
+
+* "path": "^0.12.7"
+
+* "sheetsu-node": "0.0.7"
+
+* [Bootstrap](http://getbootstrap.com/)
 
 ## RESTful Routes
 
@@ -118,65 +141,152 @@ router.route('/checkin/:id')
 .put(adminController.putAdminCheckInGuest)
 ```
 
-### Processes
-Add Table
+## Entity Relationship Diagram (ERD)
 
-Edit Table
+![ERM](http://i.imgur.com/DP3xEAZ.jpg)
 
-Add Guest
+### User Schema
+```
+var UserSchema = new mongoose.Schema({
+  name:  {
+    type: String,
+    required: true,
+    minlength: [1, 'Name must be between 1 and 99 characters'],
+    maxlength: [99, 'Name must be between 1 and 99 characters'],
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+    match: emailRegex
+  },
+  password: {
+    type: String,
+    required: true ,
+    minlength: [6, 'Password must be between 6 and 99 characters'],
+    maxlength: [99, 'Password must be between 8 and 99 characters'],
+  },
+  admin: {
+    type: Boolean,
+    default: false
+  },
+  attending: {
+    type: Boolean,
+    default: false
+  },
+  table: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Table'
+  },
+  foodPref: {
+    type: String,
+    default: 'any'
+  },
+  headCountAllowed: {
+    type: Number,
+    default: 2,
+    min: [1, 'Head Count Allowed must be at least 1']
+  },
+  headCountSelected: {
+    type: Number,
+    default: 1,
+    min: [0, 'Head Count Selected must be at least 0'],
+    max: [this.headCountAllowed, 'Head Count Selected cannot be more than Head Count Allowed']
+  },
+  checkedin: {
+    type: Number,
+    default: 0,
+    min: [0, 'Number Checked in must be at least 0'],
+    max: [this.headCountSelected, 'Head Count Selected cannot be more than Head Count Selected']
+  },
+  haveInit: {
+    type: Boolean,
+    default: false
+  },
+  permanent: {
+    type: Boolean,
+    default: false
+  }
+})
+```
 
-Edit Guest
+### Table Schema
 
-### Built With
+```
+var TableSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    unique: true
+  },
+  capacity: {
+    type: Number,
+    default: 10,
+    min: [1, 'Table capacity must be at least 1']
+  },
+  plannedFor: {
+    type: Number,
+    default: 0
+  },
+  reservedFor: {
+    type: Number,
+    default: 0
+  },
+  checkedIn: {
+    type: Number,
+    default: 0
+  },
+  permanent: {
+    type: Boolean,
+    default: false
+  }
+})
+```
 
-* "async": "^2.3.0"
 
-* "bcrypt": "^1.0.2"
+### Create, Read, Update & Delete (CRUD) Process
 
-* "body-parser": "^1.17.1"
+Async Series
 
-* "connect-flash": "^0.1.1"
+#### Adding Tables
 
-* "connect-mongo": "^1.3.2"
+#### Edit Table
 
-* "dotenv": "^4.0.0"
+#### Add Guest
 
-* "ejs": "^2.5.6"
+#### Edit Guest
 
-* "express": "^4.15.2"
 
-* "express-ejs-layouts": "^2.3.0"
+### Other Features
 
-* "express-session": "^1.15.2"
+#### Guest Log In Process
 
-* "flash": "^1.1.0"
+#### Search Filter
 
-* "method-override": "^2.3.8"
 
-* "mongoose": "^4.9.4"
+## Future Development
+The Work on [theRyanJoleneProject](https://ryanjolene.herokuapp.com) is not complete yet.
 
-* "nodemon": "^1.11.0"
-
-* "passport": "^0.3.2"
-
-* "passport-local": "^1.0.0"
-
-* "path": "^0.12.7"
-
-* "sheetsu-node": "0.0.7"
-
-* [Bootstrap](http://getbootstrap.com/)
-
-## Areas to improve on
+### Areas to improve on
 [Sheetsu](https://sheetsu.com)
 [Work In Progress](https://docs.google.com/spreadsheets/d/1LzxY4hgAX3bS5FdHbrJUuXiDEHazgNolckqX6ZVmPRI/edit#gid=0)
 [Example](https://docs.google.com/spreadsheets/d/1LzxY4hgAX3bS5FdHbrJUuXiDEHazgNolckqX6ZVmPRI/edit#gid=0)
 
+Event Schema
+Changeable location, time, date
+
 Email
+Automate Invite
 Reset Password
 
 Facebook Login
+
+
 Instragram API
+Socket IO for well wishes
+
+### Bugs
+Limit Food preferences
 
 ## Author(s)
 
