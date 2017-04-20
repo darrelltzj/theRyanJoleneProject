@@ -2,19 +2,19 @@
 <div id="form-updateGuest">
 
   <h1 class="update-label">WELCOME</h2>
-    <br>
-  <h3 class="update-label">Thank you for coming, </h3>
-  <h2 class="update-label"><u><%= user.name%></u></h2>
-    <br>
-  <h3 class="update-label">Please proceed to </h3>
-  <h2 class="update-label"><u>Table: <%= user.table.name%></u> </h2>
-
   <br>
+  <h3 class="update-label">Thank you for coming, </h3>
+  <h3 class="update-label"><u><%= user.name%></u> (<%= user.email%>)</h3>
+  <br>
+  <h3 class="update-label">Please proceed to </h3>
+  <h3 class="update-label"><u>Table: <%= user.table.name%></u> </h3>
+  <br>
+
   <form action=<%="/admin/checkin/" + user._id + "?_method=PUT"%> method="POST">
 
     <div class="form-group">
       <label for="" class="update-label">Check In Quantity</label>
-      <input type="number" class="form-control" value="<%= user.checkedin%>" name="checkedin" min=0 max=<%= user.headCountAllowed%>>
+      <input type="number" class="form-control" value="<%= user.headCountSelected%>" name="checkedin" min=0 max=<%= user.headCountAllowed%>>
     </div>
 
     <% include ../partials/alerts %>

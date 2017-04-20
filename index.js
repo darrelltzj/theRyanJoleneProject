@@ -13,8 +13,7 @@ const isLoggedIn = require('./middleware/isLoggedIn')
 const isAdmin = require('./middleware/isAdmin')
 require('dotenv').config({ silent: true })
 
-var dbURI = process.env.PROD_MONGODB || 'mongodb://localhost/theryanjoleneproject'
-mongoose.connect(dbURI)
+mongoose.connect(process.env.PROD_MONGODB)
 mongoose.Promise = global.Promise
 
 app.use(session({
@@ -40,5 +39,6 @@ app.set('view engine', 'ejs')
 
 app.use('/', require('./routes/mainRouter'))
 app.use('/admin', isLoggedIn, isAdmin, require('./routes/adminRouter'))
+app.use('/admin', isLoggedIn, isAdmin, require('./routes/sheetsuRouter'))
 
 app.listen(process.env.PORT)

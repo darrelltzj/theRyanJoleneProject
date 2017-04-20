@@ -1,5 +1,14 @@
 <div class="dimmer"></div>
 <div id="form-preference">
+
+  <h1 class="update-label">PREFERENCES</h2>
+  <br>
+  <h3 class="update-label">Dear <%= user.name%>, </h3>
+  <br>
+  <h3 class="update-label">You may RSVP with your preferences from now till </h3>
+  <h3 class="update-label"><u>1 November 2017</u> </h3>
+  <br>
+
   <form action="/preference?_method=PUT" method="POST">
     <div class="form-group">
       <label for="attending" class="update-label">Attending</label>

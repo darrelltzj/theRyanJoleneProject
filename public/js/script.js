@@ -23,10 +23,10 @@ $(document).ready(function () {
 
   $('.panel-heading').click(function (e) {
     e.stopPropagation()
-    jQuery(this).parent().children('.panel-body').toggle()
+    $(this).parent().children('.panel-body').toggle()
 })
 
-  // Sheetsu attempt
+  // ---Sheetsu attempt---
   // $.get('https://sheetsu.com/apis/v1.0/22d5da24f31b', function(data) {
   //   console.log(data)
   // })

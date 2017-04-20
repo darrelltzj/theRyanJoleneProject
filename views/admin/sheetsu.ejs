@@ -19,9 +19,9 @@
                   <th>Requested for</th>
                   <th>Checked In</th>
                   <th>
-                    <form action="/admin/guest/add">
+                    <form action="">
                     <button class="btn btn-xs btn-success" id="addGuest">
-                    Update to All
+                    Sync All to this
                     </button>
                   </form>
                 </th>
@@ -58,9 +58,9 @@
                 <%= guest.checkedin%>
               </td>
               <td>
-              <form action="/admin/guest/<%= guest._id %>">
+              <form action="">
               <button class="btn btn-xs">
-                Update to This
+                Sync to This
               </button>
               </form>
               </td>
@@ -73,7 +73,7 @@
 
   <div class="panel panel-default" id="guest-settings">
       <div class="panel-heading">
-        <b>Active Data</b>
+        <b>Current Active Data</b>
       </div>
       <div class="panel-body">
         <table class="table">
@@ -89,9 +89,9 @@
                     <th>Requested for</th>
                     <th>Checked In</th>
                     <th>
-                      <form action="/admin/guest/add">
+                      <form action="">
                       <button class="btn btn-xs btn-success" id="addGuest">
-                      Update to All
+                      Sync All to this
                       </button>
                     </form>
                   </th>
@@ -128,9 +128,9 @@
                   <%= guest.checkedin%>
                 </td>
                 <td>
-                <form action="/admin/guest/<%= guest._id %>">
+                <form action="">
                 <button class="btn btn-xs">
-                  Update to This
+                  Sync to This
                 </button>
                 </form>
                 </td>

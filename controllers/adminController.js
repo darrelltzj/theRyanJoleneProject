@@ -2,21 +2,11 @@ const Table = require('../models/table')
 const User = require('../models/user')
 const async = require('async')
 
-// ---Sheetsu attempt---
-const unirest = require('unirest')
-const sheetsu = require('sheetsu-node')
-const config = {
-  address: '22d5da24f31b'
-}
-const client = sheetsu(config)
-
 require('dotenv').config({ silent: true })
-
 const passphrase = process.env.PASSPHRASE
 
 const adminManageController = {
   getAdminManage: function (req, res) {
-    var usersWithTable
     async.series([
       function (callback) {
         Table.find({}, callback)
@@ -107,7 +97,6 @@ const adminManageController = {
           })
         },
         function (callback) {
-          // find all users with table
           User.find({
             table: req.params.id
           }, function (err, users) {
@@ -126,7 +115,7 @@ const adminManageController = {
         function (callback) {
           Table.findOneAndUpdate({
             _id: tableNotSetId
-          },{
+          }, {
             $inc: {
               plannedFor: totalHeadCountAllowed,
               reservedFor: totalHeadCountSelected,
@@ -135,7 +124,6 @@ const adminManageController = {
           }, callback)
         },
         function (callback) {
-          //
           User.update({
             table: req.params.id
           }, {
@@ -509,55 +497,9 @@ const adminManageController = {
       if (err) {
         console.error(err)
         req.flash('error', 'Error Checking In Guest')
-        res.redirect('/admin/checkin' + params.id)
+        res.redirect('/admin/checkin' + req.params.id)
       }
       res.redirect('/admin/checkin')
-    })
-  },
-  getSheetsu: function (req, res) {
-    var sheetsuData = []
-    async.series([
-      function (callback) {
-        client.read().then(function(data) {
-          sheetsuData = JSON.parse(data)
-          callback()
-        }, function (err) {
-          console.log(err)
-          res.redirect('/admin')
-        })
-      },
-      function (callback) {
-        // UPDATE sheetsuData WITH TABLE ID
-        // sheetsuData.forEach(function (guest) {
-        //   Table.find({name:guest.table}, function (err, data) {
-        //     if (err) {
-        //       console.error(err)
-        //       res.redirect('/admin')
-        //     }
-        //     else {
-        //       guest.table = data[0]._id
-        //       console.log(sheetsuData)
-        //     }
-        //   })
-        // })
-        callback()
-      },
-      function (callback) {
-        User.find({}, callback).populate('table').exec()
-      }
-    ], function (err, results) {
-      if (err) {
-        console.error(err)
-        res.redirect('/admin')
-      }
-      else {
-        // console.log(JSON.parse(sheetsuData))
-        console.log(results[2]);
-        res.render('./admin/sheetsu', {
-          sheetsuArr: sheetsuData,
-          usersArr: results[2]
-        })
-      }
     })
   }
 }

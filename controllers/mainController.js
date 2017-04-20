@@ -49,7 +49,6 @@ const mainController = {
     })
   },
   getPreference: function (req, res) {
-    console.log('setting preference', req.user)
     // console.log(req.user.name, res.locals)
     User.findById(req.user._id, function (err, user) {
       if (err) console.error(err)
