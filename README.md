@@ -12,7 +12,7 @@ Most couples use a survey form which sometimes result in the situation below:
 There is also the hassle to print guests lists to check guests off at the ceremony. Worse is that there are multiple list printed out that is difficult to compile.
 
 ### Targeted features
-To tackle the problem, the application should have the following features:
+To tackle the problem, the application was targeted to the following features:
 
 * Indication of which guests have replied, are coming and have checked in.
 
@@ -34,9 +34,7 @@ To tackle the problem, the application should have the following features:
 
 ![Guest Flow](http://i.imgur.com/m4z01CO.jpg)
 
-Wireframes
-
-GIF
+![UX](https://media.giphy.com/media/BW7MvEoZ5Fhm0/giphy.gif)
 
 [Try it out](https://ryanjolene.herokuapp.com)
 (Note: Log in required)
