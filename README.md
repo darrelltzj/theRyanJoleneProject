@@ -32,7 +32,7 @@ To tackle the problem, the application should have the following features:
 
 #### Guests
 
-![Guest Flow](http://i.imgur.com/7vHZN7q.jpg)
+![Guest Flow](http://i.imgur.com/m4z01CO.jpg)
 
 GIF
 
@@ -40,7 +40,7 @@ Wireframes
 
 [Try it out](https://ryanjolene.herokuapp.com)
 
-## About the Application
+## Developing the Application
 
 ### Built With
 
@@ -211,6 +211,18 @@ var UserSchema = new mongoose.Schema({
   }
 })
 ```
+**Notes**
+
+**headCountAllowed**: Quantity of guest(s) allocated to this user
+
+**headCountSelected**: Quantity of guest(s) this user has selected
+
+**checkedin**: Quantity of guest(s) this user has checked in
+
+**haveInit**: true if user has set preferences for the first time
+
+**permanent**: true if this is the default user / owner
+
 
 ### Table Schema
 
@@ -243,6 +255,15 @@ var TableSchema = new mongoose.Schema({
   }
 })
 ```
+**Notes**
+
+**plannedFor**: Quantity of guest(s) allocated to this table
+
+**reservedFor**: Quantity of guest(s) this user has selected
+
+**checkedIn**: Quantity of guest(s) this user has checked in
+
+**permanent**: true if this is the default user / owner
 
 
 ### Create, Read, Update & Delete (CRUD) Process
