@@ -9,7 +9,7 @@ Most couples use a survey form which sometimes result in the situation below:
 
 ![The Problem](http://i.imgur.com/ZTOZnm0.jpg)
 
-There is also the hassle to print guests lists to check guests off at the ceremony. Worse is that there are multiple list printed out that is difficult to compile.
+There is also the **hassle to print guests lists** to check guests off at the ceremony. Worse is that there are multiple list printed out that is difficult to compile.
 
 ### Targeted features
 To tackle the problem, the application was targeted to the following features:
