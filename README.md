@@ -379,6 +379,10 @@ UPDATE: Sheetsu's free trial will expire :/ - may look for other alternatives
 * Automate Invite
 * Allow users to reset password
 
+**Automate fill tables according to guests' groups**
+
+* Auto assign seating arrangement for host
+
 **Search Sort Function**
 
 * Need a search / sort function for the manage tables. Difficult for host to search when there are more guests.
