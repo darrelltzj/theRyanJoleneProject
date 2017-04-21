@@ -391,6 +391,10 @@ UPDATE: Sheetsu's free trial will expire :/ - may look for other alternatives
 
 * Log date & time of changes on guest's preferences and the user who changed it.
 
+**Delete Confirmation**
+
+* Verify with user if they want to delte a guest.
+
 **Event Schema**
 
 Allow hosts to change location, time, date, picture
