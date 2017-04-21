@@ -396,6 +396,8 @@ Simplify the log in process
 ### Bugs
 * Users can currently type an unlimited length of text for their food preferences - have to limit that.
 
+* Validation of table values - Currently, they can be left blank
+
 ## Author(s)
 
 - [Darrell Teo](https://github.com/darrelltzj)
