@@ -363,7 +363,7 @@ listFilter ($('#nameSearch'), $('#guestList'))
 4) Compare both in CAPS because .contains is case sensitive. Have to create a new expression .Contains that compares all in CAPS
 
 ## Future Development
-[theRyanJoleneProject](https://ryanjolene.herokuapp.com) is not a complete solution yet.
+[theRyanJoleneProject](https://ryanjolene.herokuapp.com) is not a complete solution yet. Feel free to add comments and suggestions to improve it!
 
 ### Possible future features / ideas
 
