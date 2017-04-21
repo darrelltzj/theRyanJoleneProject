@@ -24,6 +24,8 @@ To tackle the problem, the application was targeted to the following features:
 
 * As this is a private event. Signup should be limited to those on the guest list.
 
+![Initial Plan](http://i.imgur.com/AcTnVsG.jpg)
+
 ### Using the Application
 
 #### Host
@@ -369,6 +371,8 @@ listFilter ($('#nameSearch'), $('#guestList'))
 
 Currently, users have to manually key in their guests one at a time. With [Sheetsu](https://sheetsu.com), they can upload / sync their guest list from google spreadsheets. Still working on [this](https://ryanjolene.herokuapp.com/admin/sheetsu). Here is the
 [spreadsheet example](https://docs.google.com/spreadsheets/d/1LzxY4hgAX3bS5FdHbrJUuXiDEHazgNolckqX6ZVmPRI/edit#gid=0).
+
+UPDATE: Sheetsu's free trial will expire - may look for other alternatives
 
 **Email / SMS Notifications**
 
