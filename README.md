@@ -372,12 +372,20 @@ listFilter ($('#nameSearch'), $('#guestList'))
 Currently, users have to manually key in their guests one at a time. With [Sheetsu](https://sheetsu.com), they can upload / sync their guest list from google spreadsheets. Still working on [this](https://ryanjolene.herokuapp.com/admin/sheetsu). Here is the
 [spreadsheet example](https://docs.google.com/spreadsheets/d/1LzxY4hgAX3bS5FdHbrJUuXiDEHazgNolckqX6ZVmPRI/edit#gid=0).
 
-UPDATE: Sheetsu's free trial will expire - may look for other alternatives
+UPDATE: Sheetsu's free trial will expire :/ - may look for other alternatives
 
 **Email / SMS Notifications**
 
 * Automate Invite
 * Allow users to reset password
+
+**Search Sort Function**
+
+* Need a search / sort function for the manage tables. Difficult for host to search when there are more guests.
+
+**Accountability**
+
+* Log date & time of changes on guest's preferences and the user who changed it.
 
 **Event Schema**
 
