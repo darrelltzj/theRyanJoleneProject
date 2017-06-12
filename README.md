@@ -1,18 +1,14 @@
 # theRyanJoleneProject
-[**theRyanJoleneProject**](https://ryanjolene.herokuapp.com) is a wedding guest registration web application for my friends, Ryan and Jolene. It is also my [second project assignment](https://jeremiahalex.gitbooks.io/wdi-sg/content/11-projects/project-2/readme.html) at General Assembly's Web Development Immersive (WDI) Course.
+[**theRyanJoleneProject**](https://ryanjolene.herokuapp.com) is a wedding guest registration web application for my friends, Ryan and Jolene. It is my [second project assignment](https://jeremiahalex.gitbooks.io/wdi-sg/content/11-projects/project-2/readme.html) at General Assembly's Web Development Immersive (WDI) Course and is also the first full-stack web application that I have developed.
 
 ## User story
 As the hosts of the wedding event, my friends would like to track their guests' RSVPs so that they can make informed arrangements for their wedding ceremony.
 
 ### The problem
-Most couples use a survey form which sometimes result in the situation below:
-
-![The Problem](http://i.imgur.com/ZTOZnm0.jpg)
-
-There is also the **hassle to print guests lists** to check guests off at the ceremony. Worse is that there are multiple list printed out that is difficult to compile.
+Most couples use a survey form which sometimes result in them forgetting which guests replied, thus complicating seating arrangements. There is also the hassle to print guests lists to check guests off at the ceremony. Worse is that there are multiple list printed out that is difficult to compile.
 
 ### Targeted features
-To tackle the problem, the application was targeted to the following features:
+To tackle the problem, the application was targeted to include the following features:
 
 * Indication of which guests have replied, are coming and have checked in.
 
@@ -369,10 +365,10 @@ listFilter ($('#nameSearch'), $('#guestList'))
 
 [**Sheetsu**](https://sheetsu.com)
 
-Currently, users have to manually key in their guests one at a time. With [Sheetsu](https://sheetsu.com), they can upload / sync their guest list from google spreadsheets. Still working on [this](https://ryanjolene.herokuapp.com/admin/sheetsu). Here is the
+Currently, users have to manually key in their guests one at a time. With [Sheetsu](https://sheetsu.com), they can upload / sync their guest list from google spreadsheets. [This](https://ryanjolene.herokuapp.com/admin/sheetsu) is a work in progress. Here is the
 [spreadsheet example](https://docs.google.com/spreadsheets/d/1LzxY4hgAX3bS5FdHbrJUuXiDEHazgNolckqX6ZVmPRI/edit#gid=0).
 
-UPDATE: Sheetsu's free trial will expire :/ - may look for other alternatives
+UPDATE: Sheetsu's free trial has expired. Will be looking into Google Sheets API instead.
 
 **Email / SMS Notifications**
 
@@ -393,7 +389,7 @@ UPDATE: Sheetsu's free trial will expire :/ - may look for other alternatives
 
 **Delete Confirmation**
 
-* Verify with user if they want to delte a guest.
+* Verify with user if they want to delete a guest.
 
 **Event Schema**
 
@@ -409,8 +405,10 @@ Simplify the log in process
 
 * Socket IO for live well wishes
 
+* See [Photodrop](https://github.com/darrelltzj/photodrop)
+
 ### Bugs
-* Users can currently type an unlimited length of text for their food preferences - have to limit that.
+* Users can currently type an unlimited length of text for their food preferences - will have to limit that.
 
 * Validation of table values - Currently, they can be left blank
 
@@ -420,7 +418,7 @@ Simplify the log in process
 
 ## References
 
-* https://www.beourguest.co/ <-- Idea & Design inspiration. These guys are awesome. Would be great to collaborate with them one day.
+* https://www.beourguest.co/ <-- Idea & Design inspiration. These guys are awesome. Would love to collaborate with them one day.
 
 * https://kilianvalkhof.com/2010/javascript/how-to-build-a-fast-simple-list-filter-with-jquery/
 
